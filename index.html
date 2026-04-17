@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Omega Sound — Creative Presence</title>
+  <meta name="description" content="Your body already speaks music. Omega lets you hear it.">
+
+  <!-- No external origin preconnects — everything self-hosted -->
+
+  <!-- Styles: tokens + reset first, then hero-specific layout -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/hero.css">
+
+  <!-- No Google Fonts CDN — system serif fallback in effect -->
+</head>
+
+<body>
+  <!-- omega_dunes_bg.js auto-injects its WebGL canvas as body's first child -->
+
+  <main>
+    <section class="hero" aria-label="Hero">
+
+      <!-- ── Omega Logo: Top Center ────────────────────────────── -->
+      <!--
+        Inline SVG Ω letterform.
+        viewBox: 0 0 48 48
+        Gradient: #0A2463 (top) → #88CCF1 (bottom)
+        Geometry: 280° open arc with two horizontal feet — classic omega.
+        All stroke; no fill; no <text> element.
+      -->
+      <!-- Hover group: socials ← logo → about -->
+      <div class="hero__logo-group">
+
+        <!-- Social icons — appear to the left on hover -->
+        <div class="hero__logo-socials" aria-hidden="true">
+          <a href="#" class="hero__social-link" aria-label="Instagram">
+            <img src="assets/instagram.png" alt="Instagram" draggable="false">
+          </a>
+          <a href="#" class="hero__social-link" aria-label="LinkedIn">
+            <img src="assets/linkedin.jpeg" alt="LinkedIn" draggable="false">
+          </a>
+          <a href="#" class="hero__social-link" aria-label="YouTube">
+            <img src="assets/youtube.png" alt="YouTube" draggable="false">
+          </a>
+        </div>
+
+        <!-- Omega logo — rotates 180° on group hover -->
+        <div class="hero__logo" aria-label="Omega Sound">
+          <img src="assets/omega_logo.png" alt="Omega Sound" draggable="false">
+        </div>
+
+        <!-- About text — appears to the right on hover -->
+        <span class="hero__logo-about">About</span>
+
+      </div>
+
+      <!-- ── Hero Text: Top Left ───────────────────────────────── -->
+      <div class="hero__text">
+
+        <!-- Eyebrow: "Omega" — small, tracked, receded (Oura "ring name" treatment) -->
+        <span class="hero__eyebrow">Omega</span>
+
+        <!-- Line 1: Large italic editorial serif -->
+        <span class="hero__headline" style="font-style:normal;font-synthesis:none;">Creative,</span>
+
+        <!-- Line 2: Slightly smaller, same gradient treatment, subordinate -->
+        <span class="hero__headline hero__headline--sub" style="font-style:normal;font-synthesis:none;">Presence.</span>
+
+      </div>
+
+      <!--
+        Hand + Omega Image: Bottom Center
+        PNG with transparent background — forearm enters from bottom of frame.
+        Decorative asset; meaning conveyed by surrounding text (alt="").
+        Drop omega_hand.png into /assets/ and this works immediately.
+      -->
+      <img
+        class="hero__hand"
+        src="assets/omega_hand.png"
+        alt=""
+        role="presentation"
+        loading="eager"
+        draggable="false"
+      >
+
+    </section>
+  </main>
+
+  <!--
+    omega_dunes_bg.js — plain script tag, not a module.
+    Auto-initializes on DOMContentLoaded via internal _boot().
+    Loads Three.js r128 from CDN if not already present on window.
+    Inserts its WebGL canvas as body's first child at z-index:-1.
+    No inline JS anywhere in this document.
+  -->
+  <!-- omega_form_bg.js — Canvas 2D programmatic recreation of OmegaBackground.png -->
+  <script src="js/omega_form_bg.js"></script>
+
+</body>
+</html>

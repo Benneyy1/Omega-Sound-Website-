@@ -1,0 +1,76 @@
+/* ════════════════════════════════════════════════════════════════
+   base.css — Omega Sound Inc.
+   Design tokens + universal reset
+   ════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Omega Brand Colors ── */
+  --void:               #0B0E17;
+  --nebula:             #1A1F2E;
+  --starlight:          #E8ECF1;
+  --ghost:              #8892A4;
+  --omega-blue-deep:    #0A2463;
+  --omega-blue-bright:  #3E92CC;
+  --omega-blue-glow:    #88CCF1;
+
+  /* ── Hero Text Gradient (gray-to-black, OKLAB interpolation) ── */
+  --gradient-hero-from: #D0D0D0;
+  --gradient-hero-to:   #111111;
+
+  /* ── Typography ── */
+  --font-display: 'Editorial New', 'Georgia', serif;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont,
+               'Segoe UI', sans-serif;
+
+  /* ── Type Scale ── */
+  --text-eyebrow:   clamp(0.75rem, 1.2vw, 1rem);
+  --text-hero-line: clamp(3.5rem, 10vw, 9rem);
+  --text-hero-sub:  clamp(2.5rem, 7vw, 6.5rem);
+
+  /* ── Spacing ── */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  32px;
+  --space-xl:  64px;
+  --space-xxl: 128px;
+
+  /* ── Easing ── */
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+body {
+  background: transparent;
+  color: var(--void);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+img, video, svg {
+  max-width: 100%;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

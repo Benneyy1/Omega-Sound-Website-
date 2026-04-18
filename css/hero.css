@@ -223,6 +223,19 @@
    RESPONSIVE — Mobile
    ════════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
+  /* Hide the canvas background on portrait mobile — the lobe circles are
+     sized as a fraction of width, so on a narrow portrait viewport they
+     render as two large visible grey discs at the top of the screen.
+     The body fallback color (#E9E9E9, matching the canvas base fill)
+     provides a clean flat background instead. */
+  #omega-form-bg {
+    display: none;
+  }
+
+  body {
+    background: #E9E9E9;
+  }
+
   .hero__text {
     top: clamp(120px, 28vh, 220px);
     left: var(--space-md);

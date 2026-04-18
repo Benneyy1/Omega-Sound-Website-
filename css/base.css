@@ -56,6 +56,9 @@ html {
 }
 
 body {
+  /* Transparent lets the fixed canvas show through on desktop.
+     On mobile the canvas is hidden via media query, so the fallback
+     background is set there instead — see hero.css mobile block. */
   background: transparent;
   color: var(--void);
   font-family: var(--font-sans);

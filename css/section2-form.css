@@ -187,27 +187,82 @@
 }
 
 /* ════════════════════════════════════════════════════════════════
-   RESPONSIVE — Mobile  (image height = 210vh on mobile)
-   section2_vh_mobile = y_frac × 210 − 80
-   section-two height = 130vh
+   RESPONSIVE — Mobile
+   On mobile the form drops absolute/rotated positioning entirely
+   and stacks as a centered flex column over the palm image.
    ════════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
+  /* Hide the diagonal SVG connector lines */
   .palm-form__lines { display: none; }
 
-  .palm-form__label {
-    font-size: 0.6rem;
-    letter-spacing: 0.06em;
+  /* Re-flow the form as a vertical stack, centered in section-two */
+  .palm-form {
+    inset: unset;
+    position: absolute;
+    top: 40vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 82vw;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: flex-start;
+    pointer-events: auto;
   }
 
-  /* Stack all labels to the left side */
-  .palm-form__label--fname { top: 71vh;  right: auto; left: 3vw; }
-  .palm-form__label--email { top: 79vh;  left: 3vw; }
-  .palm-form__label--phone { top: 88vh;  right: auto; left: 3vw; }
+  /* Labels — back to normal flow, no absolute positioning */
+  .palm-form__label {
+    position: static;
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    margin-top: 1.6rem;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+  }
 
-  .palm-form__input        { width: 50vw; font-size: 0.9rem; }
-  .palm-form__input--fname { top: 72vh;  left: 28vw; }
-  .palm-form__input--email { top: 80vh;  left: 28vw; }
-  .palm-form__input--phone { top: 89vh;  left: 28vw; width: 40vw; }
+  /* Reset all per-label absolute offsets */
+  .palm-form__label--fname,
+  .palm-form__label--email,
+  .palm-form__label--phone {
+    top: auto;
+    left: auto;
+    right: auto;
+  }
 
-  .palm-form__submit { top: 110vh; }
+  /* Inputs — normal flow, no rotation */
+  .palm-form__input {
+    position: static;
+    display: block;
+    width: 80vw;
+    max-width: 320px;
+    font-size: 1rem;
+    transform: none;
+    transform-origin: unset;
+    border-bottom: 1px solid rgba(17, 17, 17, 0.45);
+    padding: 4px 0;
+    margin-top: 0;
+  }
+
+  /* Reset per-input absolute offsets */
+  .palm-form__input--fname,
+  .palm-form__input--email,
+  .palm-form__input--phone {
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 80vw;
+    max-width: 320px;
+  }
+
+  /* Submit button — back in flow, centered */
+  .palm-form__submit {
+    position: static;
+    top: auto;
+    left: auto;
+    transform: none;
+    align-self: center;
+    margin-top: 2rem;
+    font-size: 1rem;
+  }
 }

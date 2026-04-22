@@ -1,0 +1,213 @@
+/* ════════════════════════════════════════════════════════════════
+   section2-form.css — Palm Sign-Up Form
+   ════════════════════════════════════════════════════════════════
+
+   All vertical positions are measured from section-two's top edge
+   (section-two height = 180vh).
+
+   Coordinate derivation — pixel analysis of
+   omega_handsconnected_pluswriting.png (1115×3643, same dims as
+   the live image).  Formula used:
+     section2_vh = image_y_fraction × 267 − 80
+   where 267vh = current image height, 20vh = image top, 100vh = section-two start.
+
+   Horizontal positions use image-centered calc():
+     left: calc(50% + (x_frac − 0.5) × 81.7vh)
+   where 81.7vh = rendered image width (267vh × 1115/3643).
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Form container ── */
+.palm-form {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 7;
+}
+
+/* ── SVG connecting lines ─────────────────────────────────────────
+   viewBox "0 0 100 100" → x = % of viewport width,
+                            y = % of section-two height (180vh).
+   vector-effect keeps stroke at 1 CSS px regardless of scaling.
+   Derived from pixel measurements on omega_handsconnected_pluswriting.png:
+   Line A: palm (49.1, 67.5) → First Name label (61.5, 54.8)  [right-side label]
+   Line B: palm (41.5, 69.8) → E-Mail label    (31.9, 53.5)  [left-side label]
+   Line C: palm (40.6, 74.2) → Phone label     (29.5, 68.5)  [left-side label]
+   ──────────────────────────────────────────────────────────────── */
+.palm-form__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* ── Labels (Editorial New / Georgia fallback) ── */
+.palm-form__label {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: clamp(0.975rem, 1.65vw, 1.35rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+
+  /* Match hero headline gradient */
+  background-image: linear-gradient(
+    to bottom right in oklab,
+    var(--gradient-hero-from),
+    var(--gradient-hero-to)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/*
+ * Label positions — derived from pixel measurements (px→vh formula above):
+ *   First Name: image (837,2438) → top:  98.7vh, left:  calc(50% + 20.5vh)  [right of palm]
+ *   E-Mail:     image (118,2405) → top:  96.3vh, right: calc(50% + 32.2vh)  [left of palm]
+ *   Phone:      image ( 60,2774) → top: 123.3vh, right: calc(50% + 36.5vh)  [far left]
+ */
+.palm-form__label--fname { top:  94vh; left:  calc(50% + 22.5vh); }
+.palm-form__label--email { top:  91vh; right: calc(50% + 32.2vh); }
+.palm-form__label--phone { top: 121vh; right: calc(50% + 38.5vh); }
+
+/* ── Invisible inputs on the palm ── */
+.palm-form__input {
+  position: absolute;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-handwrite);
+  font-size: clamp(0.9rem, 1.8vw, 1.3rem);
+  color: #CC1100;
+  pointer-events: auto;
+  cursor: text;
+  width: 18vw;
+  padding: 2px 0;
+  caret-color: rgba(204, 17, 0, 0.7);
+}
+
+/*
+ * Input positions — anchored at the LEFT END of each palm writing line.
+ * Rotated to match the angle of the handwritten text in the image.
+ * transform-origin: left center → pivot at the start of the writing line.
+ *
+ *   First Name: left end (538,2775) → top:123.4vh, left:calc(50% - 1.4vh),  rotate(73.9deg)
+ *   E-Mail:     left end (356,2825) → top:127.1vh, left:calc(50% - 14.8vh), rotate(38.4deg)
+ *   Phone:      left end (338,2931) → top:134.9vh, left:calc(50% - 16.1vh), rotate(30.0deg)
+ */
+.palm-form__input--fname {
+  top: 123.4vh;
+  left: calc(50% - 1.4vh);
+  transform: rotate(73.9deg);
+  transform-origin: left center;
+}
+
+.palm-form__input--email {
+  top: 127.1vh;
+  left: calc(50% - 14.8vh);
+  transform: rotate(38.4deg);
+  transform-origin: left center;
+}
+
+.palm-form__input--phone {
+  top: 134.9vh;
+  left: calc(50% - 16.1vh);
+  transform: rotate(30.0deg);
+  transform-origin: left center;
+  width: 15vw;
+}
+
+/* ── Submit button — matches label/headline gradient text style ── */
+.palm-form__submit {
+  position: absolute;
+  top: 179vh;
+  left: calc(50% - 4vh);
+  transform: translateX(-50%);
+
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.8vw, 1.4rem);
+  font-weight: 400;
+  letter-spacing: 0.25em;
+
+  /* Gradient text — identical to .palm-form__label */
+  background-image: linear-gradient(
+    to bottom right in oklab,
+    var(--gradient-hero-from),
+    var(--gradient-hero-to)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  pointer-events: auto;
+  transition: opacity 0.25s ease;
+}
+
+.palm-form__submit:hover,
+.palm-form__submit:focus-visible {
+  opacity: 0.7;
+  outline: none;
+}
+
+/* ── SVG lines — same dark tone as hero gradient ── */
+.palm-form__lines line {
+  stroke: var(--gradient-hero-to);
+  stroke-opacity: 0.65;
+}
+
+/* ── Thank-you / error message — fades in below submit button ── */
+#omega-form-msg {
+  position: absolute;
+  top: calc(165vh + 2.4em);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: clamp(0.6rem, 1vw, 0.8rem);
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.80);
+  pointer-events: none;
+  animation: omega-msg-in 0.35s ease forwards;
+}
+
+@keyframes omega-msg-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0);   }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile  (image height = 210vh on mobile)
+   section2_vh_mobile = y_frac × 210 − 80
+   section-two height = 130vh
+   ════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .palm-form__lines { display: none; }
+
+  .palm-form__label {
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+  }
+
+  /* Stack all labels to the left side */
+  .palm-form__label--fname { top: 71vh;  right: auto; left: 3vw; }
+  .palm-form__label--email { top: 79vh;  left: 3vw; }
+  .palm-form__label--phone { top: 88vh;  right: auto; left: 3vw; }
+
+  .palm-form__input        { width: 50vw; font-size: 0.9rem; }
+  .palm-form__input--fname { top: 72vh;  left: 28vw; }
+  .palm-form__input--email { top: 80vh;  left: 28vw; }
+  .palm-form__input--phone { top: 89vh;  left: 28vw; width: 40vw; }
+
+  .palm-form__submit { top: 110vh; }
+}

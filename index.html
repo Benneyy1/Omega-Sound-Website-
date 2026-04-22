@@ -6,11 +6,11 @@
   <title>Omega Sound — Creative Presence</title>
   <meta name="description" content="Your body already speaks music. Omega lets you hear it.">
 
-  <!-- No external origin preconnects — everything self-hosted -->
-
   <!-- Styles: tokens + reset first, then hero-specific layout -->
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/section2.css">
+  <link rel="stylesheet" href="css/section2-form.css">
 
   <!-- No Google Fonts CDN — system serif fallback in effect -->
 </head>
@@ -55,17 +55,27 @@
 
       </div>
 
+      <!-- ── Hero connecting line: OMEGA eyebrow → thumb ─────── -->
+      <svg class="hero__lines" aria-hidden="true">
+        <line id="hero-omega-thumb-line"
+              stroke-width="1"
+              vector-effect="non-scaling-stroke"/>
+      </svg>
+
       <!-- ── Hero Text: Top Left ───────────────────────────────── -->
       <div class="hero__text">
 
         <!-- Eyebrow: "Omega" — small, tracked, receded (Oura "ring name" treatment) -->
         <span class="hero__eyebrow">Omega</span>
 
+        <!-- Line 0: Same size/style as Presence. -->
+        <span class="hero__headline hero__headline--sub">Achieve</span>
+
         <!-- Line 1: Large italic editorial serif -->
-        <span class="hero__headline" style="font-style:normal;font-synthesis:none;">Creative,</span>
+        <span class="hero__headline">Creative,</span>
 
         <!-- Line 2: Slightly smaller, same gradient treatment, subordinate -->
-        <span class="hero__headline hero__headline--sub" style="font-style:normal;font-synthesis:none;">Presence.</span>
+        <span class="hero__headline hero__headline--sub" style="font-style:italic;">Presence.</span>
 
       </div>
 
@@ -75,17 +85,104 @@
         Decorative asset; meaning conveyed by surrounding text (alt="").
         Drop omega_hand.png into /assets/ and this works immediately.
       -->
-      <img
-        class="hero__hand"
-        src="assets/omega_hand.png"
-        alt=""
-        role="presentation"
-        loading="eager"
-        draggable="false"
-      >
+      <!-- hand removed — replaced by hands-connected spanning both sections -->
 
     </section>
+
+    <section class="section-two" aria-label="Section Two">
+      <!-- #omega-form-bg-2 canvas injected here by section2_bg.js -->
+
+      <!-- MailChimp sign-up form -->
+      <form
+        class="palm-form"
+        action="https://omegasoundinc.us9.list-manage.com/subscribe/post?u=5f27c55368de67a4f5662f450&id=098dc2d309&f_id=00b7c2e1f0"
+        method="post"
+        id="mc-embedded-subscribe-form"
+        name="mc-embedded-subscribe-form"
+        novalidate
+      >
+        <!--
+          SVG diagonal lines connecting labels to inputs.
+          viewBox "0 0 100 100" → coordinates are % of section-two width/height.
+          Endpoints derived from pixel analysis of omega_Openhand_PlusWriting.png.
+          Fine-tune x1/y1/x2/y2 values visually after first browser load.
+        -->
+        <svg class="palm-form__lines"
+             viewBox="0 0 100 100"
+             preserveAspectRatio="none"
+             aria-hidden="true">
+          <!-- First Name: palm (536,2750) → label (837,2438) [right side] -->
+          <!-- y = top_vh / 2.0  (section-two height = 200vh) -->
+          <line x1="49.1" y1="60.8" x2="61.5" y2="49.4"
+                stroke-width="1"
+                vector-effect="non-scaling-stroke"/>
+          <!-- E-Mail: palm (352,2808) → label (118,2405) [left side] -->
+          <line x1="41.5" y1="62.9" x2="31.9" y2="48.2"
+                stroke-width="1"
+                vector-effect="non-scaling-stroke"/>
+          <!-- Phone: palm (330,2916) → label (60,2774) [far left] -->
+          <line x1="40.6" y1="66.8" x2="29.5" y2="61.7"
+                stroke-width="1"
+                vector-effect="non-scaling-stroke"/>
+        </svg>
+
+        <!-- Labels -->
+        <label class="palm-form__label palm-form__label--fname" for="mce-FNAME">
+          First Name
+        </label>
+        <label class="palm-form__label palm-form__label--email" for="mce-EMAIL">
+          E-Mail
+        </label>
+        <label class="palm-form__label palm-form__label--phone" for="mce-PHONE">
+          Phone Number
+        </label>
+
+        <!-- Invisible inputs — text appears handwritten on the palm -->
+        <!-- First Name — required -->
+        <input type="text"  name="FNAME"  id="mce-FNAME"
+               class="palm-form__input palm-form__input--fname"
+               autocomplete="given-name" required>
+
+        <!-- E-Mail — required -->
+        <input type="email" name="EMAIL"  id="mce-EMAIL"
+               class="palm-form__input palm-form__input--email"
+               autocomplete="email" required>
+
+        <!-- Phone Number — optional -->
+        <input type="tel"   name="PHONE"  id="mce-PHONE"
+               class="palm-form__input palm-form__input--phone"
+               autocomplete="tel">
+
+        <!-- MailChimp anti-bot honeypot — must stay hidden -->
+        <div style="position:absolute;left:-5000px;" aria-hidden="true">
+          <input type="text"
+                 name="b_5f27c55368de67a4f5662f450_098dc2d309"
+                 tabindex="-1" value="">
+        </div>
+
+        <!-- Submit -->
+        <button type="submit"
+                name="subscribe"
+                id="mc-embedded-subscribe"
+                class="palm-form__submit">
+          SUBMIT
+        </button>
+      </form>
+    </section>
+
   </main>
+
+  <!-- Connected-hands image — direct child of body so mix-blend-mode:screen
+       blends against the WebGL canvas backdrop with no intermediate stacking
+       context in the way. Spans hero + section two; intersection at ~100vh. -->
+  <img
+    class="hands-connected"
+    src="assets/omega_handsconnected.png"
+    alt=""
+    role="presentation"
+    loading="eager"
+    draggable="false"
+  >
 
   <!--
     omega_dunes_bg.js — plain script tag, not a module.
@@ -96,6 +193,12 @@
   -->
   <!-- omega_form_bg.js — Canvas 2D programmatic recreation of OmegaBackground.png -->
   <script src="js/omega_form_bg.js"></script>
+  <!-- section2_bg.js — inits a second canvas inside .section-two, flipped via CSS -->
+  <script src="js/section2_bg.js"></script>
+  <!-- omega_form_submit.js — JSONP submit, no redirect; shows thank-you below button -->
+  <script src="js/omega_form_submit.js"></script>
+  <!-- omega_hero_lines.js — draws OMEGA eyebrow → thumb connecting line -->
+  <script src="js/omega_hero_lines.js"></script>
 
 </body>
 </html>

@@ -138,12 +138,28 @@
 }
 
 
+/* ── Hero SVG overlay — connecting lines ── */
+.hero__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 6;
+}
+
+.hero__lines line {
+  stroke: var(--gradient-hero-to);
+  stroke-opacity: 0.55;
+}
+
 /* ════════════════════════════════════════════════════════════════
    HERO TEXT BLOCK — lowered
    ════════════════════════════════════════════════════════════════ */
 .hero__text {
   position: absolute;
-  top: clamp(160px, 35vh, 320px);
+  top: clamp(300px, 52vh, 520px);
   left: clamp(var(--space-lg), 5vw, 80px);
   z-index: 10;
   display: flex;
@@ -202,24 +218,6 @@
 
 
 /* ════════════════════════════════════════════════════════════════
-   HAND / OMEGA IMAGE — Bottom Center
-   1.5× original size (increased by 0.5×)
-   ════════════════════════════════════════════════════════════════ */
-.hero__hand {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5;
-  height: clamp(750px, 108vh, 1350px);
-  width: auto;
-  mix-blend-mode: multiply;
-  pointer-events: none;
-  user-select: none;
-}
-
-
-/* ════════════════════════════════════════════════════════════════
    RESPONSIVE — Mobile
    ════════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
@@ -233,7 +231,7 @@
   }
 
   body {
-    background: #E9E9E9;
+    /* background: #E9E9E9; */
   }
 
   .hero__text {

@@ -1,0 +1,76 @@
+/* ════════════════════════════════════════════════════════════════
+   section2.css — Omega Sound Inc.
+   ════════════════════════════════════════════════════════════════ */
+
+.section-two {
+  position: relative;
+  width: 100%;
+  height: 200vh;
+  min-height: 700px;
+  overflow: hidden;
+  /* background: #E9E9E9; */
+}
+
+/* Reversed background canvas — flipped so the arch mirrors the hero above */
+#omega-form-bg-2 {
+  transform: scaleY(-1);
+  z-index: 0;
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   HANDS CONNECTED — single image spanning hero + section two
+   ════════════════════════════════════════════════════════════════
+   Height is calculated so the hands' intersection point (at ≈56%
+   from the top of the image) lands at exactly 100vh — the seam
+   between the hero section and section two:
+
+       height × 0.56 = 100vh  →  height = 178vh
+
+   The open hand (top of PNG) fills section one.
+   The closed device hand (bottom of PNG) fills section two.
+
+   mix-blend-mode:screen dissolves the black PNG background:
+       screen(black=0, backdrop) = backdrop → black disappears.
+*/
+.hands-connected {
+  position: absolute;
+  /*
+   * Pixel analysis of omega_handsconnected.png (1115×3643):
+   *   The white-blue device orb (closed fist, top of image) peaks at
+   *   rows 350–400 = 9.6–11.0% from image top. Centroid ≈ 10.3%.
+   *   The teal open-hand orb is at the BOTTOM (~77–85%).
+   *
+   * Gothic arch apex = Y(0.460) = 46vh from page top.
+   *
+   * Solve:  top + 0.103 × 178vh = 46vh
+   *         top = 46 − 18.3 = 27.7vh ≈ 28vh
+   */
+  top: 20vh;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 267vh;
+  width: auto;
+  pointer-events: none;
+  user-select: none;
+  z-index: 5;
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile
+   ════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  #omega-form-bg-2 {
+    display: none;
+  }
+
+  .section-two {
+    height: 130vh;
+    background: #E9E9E9;
+  }
+
+  .hands-connected {
+    height: 210vh;
+  }
+}

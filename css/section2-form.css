@@ -122,7 +122,7 @@
   width: 15vw;
 }
 
-/* ── Submit button — matches label/headline gradient text style ── */
+/* ── Submit button — cyan oval pill, black text ── */
 .palm-form__submit {
   position: absolute;
   top: 179vh;
@@ -134,20 +134,17 @@
   font-weight: 400;
   letter-spacing: 0.25em;
 
-  /* Gradient text — identical to .palm-form__label */
-  background-image: linear-gradient(
-    to bottom right in oklab,
-    var(--gradient-hero-from),
-    var(--gradient-hero-to)
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  /* Oval pill */
+  background-color: #06d5ec;
+  background-image: none;
+  background-clip: border-box;
+  -webkit-background-clip: border-box;
+  color: #000000;
+  -webkit-text-fill-color: #000000;
 
-  background-color: transparent;
   border: none;
-  padding: 0;
+  border-radius: 999px;
+  padding: 0.55em 2.2em;
   cursor: pointer;
   white-space: nowrap;
   pointer-events: auto;
@@ -156,7 +153,7 @@
 
 .palm-form__submit:hover,
 .palm-form__submit:focus-visible {
-  opacity: 0.7;
+  opacity: 0.75;
   outline: none;
 }
 
@@ -210,14 +207,15 @@
     pointer-events: auto;
   }
 
-  /* Labels — back to normal flow, no absolute positioning */
+  /* Labels — in-flow, flush above the underline */
   .palm-form__label {
     position: static;
     display: block;
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    margin-top: 1.6rem;
-    margin-bottom: 0.25rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 1.8rem;
+    margin-bottom: 0;       /* zero gap — underline sits directly under text */
     white-space: nowrap;
   }
 
@@ -230,18 +228,22 @@
     right: auto;
   }
 
-  /* Inputs — normal flow, no rotation */
+  /* Inputs — the bottom border IS the underline under the label */
   .palm-form__input {
     position: static;
     display: block;
-    width: 80vw;
-    max-width: 320px;
+    width: 100%;            /* span the full form width */
+    max-width: none;
     font-size: 1rem;
+    font-family: var(--font-handwrite);
+    color: #CC1100;
     transform: none;
     transform-origin: unset;
+    border: none;
     border-bottom: 1px solid rgba(17, 17, 17, 0.45);
-    padding: 4px 0;
+    padding: 6px 0 4px;
     margin-top: 0;
+    background: transparent;
   }
 
   /* Reset per-input absolute offsets */
@@ -251,8 +253,7 @@
     top: auto;
     left: auto;
     transform: none;
-    width: 80vw;
-    max-width: 320px;
+    width: 100%;
   }
 
   /* Submit button — back in flow, centered */

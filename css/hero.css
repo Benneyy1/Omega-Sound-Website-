@@ -7,7 +7,10 @@
 .hero {
   position: relative;
   width: 100%;
-  height: 100vh;
+  /* Height aligned to Y:1672 of omega_handsconnected.png (1248×3328):
+     page_Y = 20vh + (1672/3328 × 250vh) = 145.6vh
+     This is the mirror axis where canvas 1 ends and canvas 2 begins. */
+  height: 145.6vh;
   min-height: 700px;
   overflow: hidden;
   display: flex;
@@ -107,23 +110,19 @@
   mix-blend-mode: multiply;
 }
 
-/* ── "About" — absolutely positioned RIGHT of logo ──
-   Offset mirrors the social gap from OmegaLogoFlipEG.png.
-   Plain color instead of gradient-clip so no background box
-   can ever appear behind the text in any browser. ── */
-.hero__logo-about {
+/* ── Nav row (Demo | About) — absolutely positioned RIGHT of logo ──
+   Container takes the same anchor as the old single "About" span.
+   Items share typography; they sit side-by-side with a fixed gap. ── */
+.hero__logo-nav {
   position: absolute;
   left: calc(100% + max(60px, 9vw));
   top: 50%;
   transform: translateY(-50%) translateX(-10px);
-  font-family: var(--font-sans);
-  font-size: var(--text-eyebrow);
-  font-weight: 500;
-  letter-spacing: 0.15em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: clamp(20px, 3vw, 44px);
   white-space: nowrap;
-  cursor: pointer;
-  color: rgba(0, 0, 0, 0.45);
-  background: none;
 
   opacity: 0;
   pointer-events: none;
@@ -131,10 +130,31 @@
               transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.hero__logo-group:hover .hero__logo-about {
+.hero__logo-group:hover .hero__logo-nav {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(-50%) translateX(0);
+}
+
+.hero__logo-nav-item {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  color: #000000;
+  background: none;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.hero__logo-nav-item:hover {
+  color: #000000;
+}
+
+/* Active page indicator */
+.hero__logo-nav-item[aria-current="page"] {
+  color: #000000;
 }
 
 
@@ -150,13 +170,31 @@
 }
 
 .hero__lines line {
-  stroke: var(--gradient-hero-to);
-  stroke-opacity: 0.55;
+  stroke: #88CCF1;
+  stroke-width: 2;
+  stroke-opacity: 0.7;
 }
 
 /* ════════════════════════════════════════════════════════════════
    HERO TEXT BLOCK — lowered
    ════════════════════════════════════════════════════════════════ */
+
+/* Register the two gradient stops as animatable typed properties.
+   Plain CSS variables can't interpolate color values — @property
+   declares the syntax so the browser knows how to tween them.
+   inherits:true lets the value flow from .hero__text to every
+   child (.hero__eyebrow, .hero__headline) without re-declaring. */
+@property --hero-grad-from {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #8BBFE8;
+}
+@property --hero-grad-to {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #052145;
+}
+
 .hero__text {
   position: absolute;
   top: clamp(300px, 52vh, 520px);
@@ -166,6 +204,21 @@
   flex-direction: column;
   gap: 0;
   line-height: 1;
+
+  /* Seed the local copies at their resting values */
+  --hero-grad-from: #8BBFE8;
+  --hero-grad-to:   #052145;
+
+  /* Animate both stops together */
+  transition:
+    --hero-grad-from 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    --hero-grad-to   0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* On hover: light end deepens to mid-gray, dark end goes to pure black */
+.hero__text:hover {
+  --hero-grad-from: #4A96CC;
+  --hero-grad-to:   #020D1F;
 }
 
 .hero__eyebrow {
@@ -177,8 +230,8 @@
 
   background-image: linear-gradient(
     to bottom right in oklab,
-    var(--gradient-hero-from),
-    var(--gradient-hero-to)
+    var(--hero-grad-from),
+    var(--hero-grad-to)
   );
   background-clip: text;
   -webkit-background-clip: text;
@@ -200,8 +253,8 @@
 
   background-image: linear-gradient(
     to bottom right in oklab,
-    var(--gradient-hero-from),
-    var(--gradient-hero-to)
+    var(--hero-grad-from),
+    var(--hero-grad-to)
   );
   background-clip: text;
   -webkit-background-clip: text;
@@ -242,4 +295,38 @@
   .hero__hand {
     height: clamp(570px, 90vh, 900px);
   }
+
+  /* ── Logo group: switch to column so socials sit below the mark ── */
+  .hero__logo-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Remove the large invisible hover bridge — no hover on touch */
+  .hero__logo-group::before {
+    display: none;
+  }
+
+  /* Socials: always visible, in-flow horizontal row below the Ω mark */
+  .hero__logo-socials {
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .hero__social-link img {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Hide nav row on mobile — no room beside the logo in column layout */
+  .hero__logo-nav {
+    display: none;
+  }
+}
 }

@@ -1,0 +1,196 @@
+/* ════════════════════════════════════════════════════════════════
+   about.css — Omega Sound Inc.
+   About page layout
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Page base ── */
+.about-page {
+  background: #FAFAFA;
+  color: var(--void);
+  min-height: 100vh;
+}
+
+/* ── Nav: fixed top-center, override hero.css absolute ── */
+.about-page .hero__logo-group {
+  position: fixed;
+  top: var(--space-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.about-page .hero__social-link img {
+  mix-blend-mode: normal;
+}
+
+/* ── Page wrapper ── */
+.about-wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 148px 40px 80px;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   TWO-COLUMN GRID
+   ════════════════════════════════════════════════════════════════ */
+.about-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  column-gap: 48px;
+  align-items: start;
+}
+
+/* ── LEFT COLUMN ── */
+.about-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Role eyebrow — matches .hero__eyebrow treatment */
+.about-role {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--void);
+  opacity: 0.65;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Name — slightly larger, same family */
+.about-name {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--void);
+  margin: 0 0 10px;
+  line-height: 1.3;
+}
+
+.about-name em {
+  font-style: italic;
+}
+
+/* Main portrait — full column width */
+.about-photo-main {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Two side-by-side photos */
+.about-photo-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.about-photo-pair img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── RIGHT COLUMN: biography ── */
+.about-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.about-right p {
+  font-family: var(--font-sans);
+  font-size: clamp(0.8rem, 1vw, 0.9rem);
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--void);
+  margin: 0;
+}
+
+/* Bottom photo — stays in left column flow */
+.about-photo-bottom {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   QUOTE — below the grid, left-offset to align with right column
+   300px left col + 48px gap = 348px
+   ════════════════════════════════════════════════════════════════ */
+.about-bottom-row {
+  margin-top: -120px;
+  padding-left: calc(300px + 48px);
+}
+
+.about-quote {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--void);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile
+   ════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .about-wrap {
+    padding: 88px 20px 60px;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    row-gap: 32px;
+  }
+
+  /* Bio reads first on mobile */
+  .about-right {
+    order: -1;
+  }
+
+  .about-right p {
+    font-size: 0.9rem;
+  }
+
+  .about-photo-bottom {
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Mobile nav — matches hero mobile layout */
+  .about-page .hero__logo-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .about-page .hero__logo-group::before {
+    display: none;
+  }
+
+  .about-page .hero__logo-socials {
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .about-page .hero__logo-nav {
+    display: none;
+  }
+}

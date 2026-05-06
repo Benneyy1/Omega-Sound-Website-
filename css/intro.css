@@ -1,0 +1,11 @@
+/* ══════════════════════════════════════════════════════════════
+   intro.css — Initial hidden states for page-load entrance animation.
+   Loaded FIRST in <head> so elements start invisible before any
+   other styles or scripts run — prevents flash of styled content.
+   omega_intro.js drives all transitions and cleans up inline styles.
+   ══════════════════════════════════════════════════════════════ */
+
+.hands-connected  { opacity: 0; }
+.hero__logo-group { opacity: 0; }
+.hero__text       { opacity: 0; transform: translateY(50px); }
+.hero__lines      { opacity: 0; }

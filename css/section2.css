@@ -5,10 +5,13 @@
 .section-two {
   position: relative;
   width: 100%;
-  height: 200vh;
+  height: 163.5vh;
   min-height: 700px;
   overflow: hidden;
   /* background: #E9E9E9; */
+  /* Pull up 2px to close the subpixel gap that appears at the 145.6vh
+     fractional boundary between the two mirrored canvases. */
+  margin-top: -2px;
 }
 
 /* Reversed background canvas — flipped so the arch mirrors the hero above */
@@ -21,11 +24,9 @@
 /* ════════════════════════════════════════════════════════════════
    HANDS CONNECTED — single image spanning hero + section two
    ════════════════════════════════════════════════════════════════
-   Height is calculated so the hands' intersection point (at ≈56%
-   from the top of the image) lands at exactly 100vh — the seam
-   between the hero section and section two:
-
-       height × 0.56 = 100vh  →  height = 178vh
+   Seam is at Y:1672 of omega_handsconnected.png (1248×3328):
+       page_Y = 20vh + (1672/3328 × 250vh) = 145.6vh
+   Hero height is 145.6vh so the canvas mirror axis aligns here.
 
    The open hand (top of PNG) fills section one.
    The closed device hand (bottom of PNG) fills section two.
@@ -36,7 +37,7 @@
 .hands-connected {
   position: absolute;
   /*
-   * Pixel analysis of omega_handsconnected.png (1115×3643):
+   * Pixel analysis of omega_handsconnected.png (1248×3328):
    *   The white-blue device orb (closed fist, top of image) peaks at
    *   rows 350–400 = 9.6–11.0% from image top. Centroid ≈ 10.3%.
    *   The teal open-hand orb is at the BOTTOM (~77–85%).
@@ -49,11 +50,91 @@
   top: 20vh;
   left: 50%;
   transform: translateX(-50%);
-  height: 267vh;
+  height: 250vh;
   width: auto;
+  max-width: none;          /* override base.css img reset */
+  aspect-ratio: 1248 / 3328; /* lock intrinsic ratio — prevents mobile browser warp */
   pointer-events: none;
   user-select: none;
   z-index: 5;
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   FOOTER LOGO GROUP — Bottom Center of section-two
+   Mirrors the hero logo group: logo pre-rotated 180°, text fades
+   in on hover (copyright left, rights right).
+   ════════════════════════════════════════════════════════════════ */
+.footer__logo-group {
+  position: absolute;
+  bottom: var(--space-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+/* Extended hover bridge — same trick as hero logo group */
+.footer__logo-group::before {
+  content: '';
+  position: absolute;
+  left: -38vw;
+  right: -38vw;
+  top: -4vh;
+  bottom: -4vh;
+}
+
+/* Logo mark — starts flipped, rotates upright on hover */
+.footer__logo {
+  width: clamp(64px, 8vw, 104px);
+  height: auto;
+  display: block;
+  transform: rotate(180deg);
+  transition: transform 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.footer__logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.footer__logo-group:hover .footer__logo {
+  transform: rotate(360deg);
+}
+
+/* Shared text style — same font/tracking as hero eyebrow */
+.footer__logo-left,
+.footer__logo-right {
+  position: absolute;
+  top: 50%;
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: #000000;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Copyright — to the left, slides in from right */
+.footer__logo-left {
+  right: calc(100% + max(68px, 8vw));
+  transform: translateY(-50%) translateX(10px);
+}
+
+/* Rights — to the right, slides in from left */
+.footer__logo-right {
+  left: calc(100% + max(68px, 8vw));
+  transform: translateY(-50%) translateX(-10px);
+}
+
+.footer__logo-group:hover .footer__logo-left,
+.footer__logo-group:hover .footer__logo-right {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
 }
 
 
@@ -67,10 +148,11 @@
 
   .section-two {
     height: 130vh;
-    background: #E9E9E9;
+    background: transparent; /* dunes WebGL canvas (position:fixed) provides bg on mobile */
   }
 
   .hands-connected {
     height: 210vh;
+    aspect-ratio: 1248 / 3328; /* maintain on mobile too */
   }
 }

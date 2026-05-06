@@ -12,8 +12,8 @@
    where 267vh = current image height, 20vh = image top, 100vh = section-two start.
 
    Horizontal positions use image-centered calc():
-     left: calc(50% + (x_frac − 0.5) × 81.7vh)
-   where 81.7vh = rendered image width (267vh × 1115/3643).
+     left: calc(50% + (x_frac − 0.5) × 93.8vh)
+   where 93.8vh = rendered image width (250vh × 1248/3328).
    ════════════════════════════════════════════════════════════════ */
 
 /* ── Form container ── */
@@ -42,109 +42,95 @@
   overflow: visible;
 }
 
-/* ── Labels (Editorial New / Georgia fallback) ── */
+/* ── Labels — visually hidden, kept for screen readers ── */
 .palm-form__label {
   position: absolute;
-  font-family: var(--font-display);
-  font-size: clamp(0.975rem, 1.65vw, 1.35rem);
-  font-weight: 400;
-  letter-spacing: 0.12em;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
   white-space: nowrap;
   pointer-events: none;
-  user-select: none;
-
-  /* Match hero headline gradient */
-  background-image: linear-gradient(
-    to bottom right in oklab,
-    var(--gradient-hero-from),
-    var(--gradient-hero-to)
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
 }
 
 /*
- * Label positions — derived from pixel measurements (px→vh formula above):
- *   First Name: image (837,2438) → top:  98.7vh, left:  calc(50% + 20.5vh)  [right of palm]
- *   E-Mail:     image (118,2405) → top:  96.3vh, right: calc(50% + 32.2vh)  [left of palm]
- *   Phone:      image ( 60,2774) → top: 123.3vh, right: calc(50% + 36.5vh)  [far left]
+ * Label positions — original image coords, adjusted −45.6vh for hero
+ * height change (100vh → 145.6vh shifts section-two start down by 45.6vh):
+ *   First Name: image (483,2572) → top: 67.6vh, left: calc(50% − 10.6vh)
+ *   E-Mail:     image (483,2676) → top: 73.9vh, left: calc(50% − 10.6vh)
+ *   Phone:      image (483,2732) → top: 79.6vh, left: calc(50% − 10.6vh)
  */
-.palm-form__label--fname { top:  94vh; left:  calc(50% + 22.5vh); }
-.palm-form__label--email { top:  91vh; right: calc(50% + 32.2vh); }
-.palm-form__label--phone { top: 121vh; right: calc(50% + 38.5vh); }
+.palm-form__label--fname { top:  67.6vh; left: calc(50% - 10.6vh); }
+.palm-form__label--email { top:  73.9vh; left: calc(50% - 10.6vh); }
+.palm-form__label--phone { top:  79.6vh; left: calc(50% - 10.6vh); }
 
-/* ── Invisible inputs on the palm ── */
+/* ── Inputs — sit at label positions, styled as handwritten italic text ── */
 .palm-form__input {
   position: absolute;
   background: transparent;
   border: none;
   outline: none;
-  font-family: var(--font-handwrite);
-  font-size: clamp(0.9rem, 1.8vw, 1.3rem);
-  color: #CC1100;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: clamp(0.975rem, 1.65vw, 1.35rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: #000000;
   pointer-events: auto;
   cursor: text;
-  width: 18vw;
-  padding: 2px 0;
-  caret-color: rgba(204, 17, 0, 0.7);
+  width: 14em;
+  padding: 0;
+  caret-color: rgba(0, 0, 0, 0.7);
+}
+
+.palm-form__input::placeholder {
+  color: rgba(0, 0, 0, 0.6);
+  font-style: normal;
 }
 
 /*
- * Input positions — anchored at the LEFT END of each palm writing line.
- * Rotated to match the angle of the handwritten text in the image.
- * transform-origin: left center → pivot at the start of the writing line.
- *
- *   First Name: left end (538,2775) → top:123.4vh, left:calc(50% - 1.4vh),  rotate(73.9deg)
- *   E-Mail:     left end (356,2825) → top:127.1vh, left:calc(50% - 14.8vh), rotate(38.4deg)
- *   Phone:      left end (338,2931) → top:134.9vh, left:calc(50% - 16.1vh), rotate(30.0deg)
+ * Input positions — original image coords, adjusted −45.6vh (see label comment):
+ *   First Name: image (483,2572) → top: 67.6vh,  left: calc(50% − 10.6vh)
+ *   E-Mail:     image (483,2676) → top: 73.9vh,  left: calc(50% − 10.6vh)
+ *   Phone:      image (483,2732) → top: 79.6vh,  left: calc(50% − 10.6vh)
  */
 .palm-form__input--fname {
-  top: 123.4vh;
-  left: calc(50% - 1.4vh);
-  transform: rotate(73.9deg);
-  transform-origin: left center;
+  top:  65.6vh;
+  left: calc(50% - 10.6vh);
 }
 
 .palm-form__input--email {
-  top: 127.1vh;
-  left: calc(50% - 14.8vh);
-  transform: rotate(38.4deg);
-  transform-origin: left center;
+  top:  71.9vh;
+  left: calc(50% - 10.6vh);
 }
 
 .palm-form__input--phone {
-  top: 134.9vh;
-  left: calc(50% - 16.1vh);
-  transform: rotate(30.0deg);
-  transform-origin: left center;
-  width: 15vw;
+  top:  77.6vh;
+  left: calc(50% - 10.6vh);
 }
 
 /* ── Submit button — cyan oval pill, black text ── */
 .palm-form__submit {
   position: absolute;
-  top: 179vh;
-  left: calc(50% - 4vh);
+  top: 125.5vh;
+  left: calc(50% + 0.2vh);
   transform: translateX(-50%);
 
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: clamp(1rem, 1.8vw, 1.4rem);
   font-weight: 400;
   letter-spacing: 0.25em;
 
-  /* Oval pill */
-  background-color: #06d5ec;
-  background-image: none;
+  /* Oval pill — no fill, stroke outline only */
+  background: transparent;
   background-clip: border-box;
   -webkit-background-clip: border-box;
   color: #000000;
   -webkit-text-fill-color: #000000;
 
-  border: none;
+  border: 1.5px solid #88CCF1;
   border-radius: 999px;
-  padding: 0.55em 2.2em;
+  padding: 0.1em 0.4em;
   cursor: pointer;
   white-space: nowrap;
   pointer-events: auto;
@@ -166,14 +152,14 @@
 /* ── Thank-you / error message — fades in below submit button ── */
 #omega-form-msg {
   position: absolute;
-  top: calc(165vh + 2.4em);
+  top: calc(119.4vh + 2.4em);
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
   font-family: var(--font-display);
   font-size: clamp(0.6rem, 1vw, 0.8rem);
   letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.80);
+  color: #000000;
   pointer-events: none;
   animation: omega-msg-in 0.35s ease forwards;
 }
@@ -235,8 +221,8 @@
     width: 100%;            /* span the full form width */
     max-width: none;
     font-size: 1rem;
-    font-family: var(--font-handwrite);
-    color: #CC1100;
+    font-family: var(--font-sans);
+    color: #000000;
     transform: none;
     transform-origin: unset;
     border: none;
@@ -252,7 +238,6 @@
   .palm-form__input--phone {
     top: auto;
     left: auto;
-    transform: none;
     width: 100%;
   }
 

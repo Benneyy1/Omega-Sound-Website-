@@ -6,13 +6,20 @@
   <title>Omega Sound — Creative Presence</title>
   <meta name="description" content="Your body already speaks music. Omega lets you hear it.">
 
+  <!-- intro.css must load first — sets elements to opacity:0 before render -->
+  <link rel="stylesheet" href="css/intro.css">
   <!-- Styles: tokens + reset first, then hero-specific layout -->
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/hero.css">
   <link rel="stylesheet" href="css/section2.css">
   <link rel="stylesheet" href="css/section2-form.css">
+  <link rel="stylesheet" href="css/popup.css">
+  <link rel="stylesheet" href="css/device-glow.css">
 
   <!-- No Google Fonts CDN — system serif fallback in effect -->
+
+  <!-- reCAPTCHA v3 — renders invisibly, scores on submit -->
+  <script src="https://www.google.com/recaptcha/api.js?render=6LfFj88sAAAAALtIPMLKS2R921HBlHDBfWScU63F"></script>
 </head>
 
 <body>
@@ -50,8 +57,11 @@
           <img src="assets/omega_logo.png" alt="Omega Sound" draggable="false">
         </div>
 
-        <!-- About text — appears to the right on hover -->
-        <span class="hero__logo-about">About</span>
+        <!-- Nav items — appear to the right on hover: Demo | About -->
+        <nav class="hero__logo-nav" aria-label="Site navigation">
+          <a href="demo.html" class="hero__logo-nav-item">Demo</a>
+          <a href="about.html" class="hero__logo-nav-item">About</a>
+        </nav>
 
       </div>
 
@@ -72,7 +82,7 @@
         <span class="hero__headline hero__headline--sub">Achieve</span>
 
         <!-- Line 1: Large italic editorial serif -->
-        <span class="hero__headline">Creative,</span>
+        <span class="hero__headline">Creative</span>
 
         <!-- Line 2: Slightly smaller, same gradient treatment, subordinate -->
         <span class="hero__headline hero__headline--sub" style="font-style:italic;">Presence.</span>
@@ -101,31 +111,6 @@
         name="mc-embedded-subscribe-form"
         novalidate
       >
-        <!--
-          SVG diagonal lines connecting labels to inputs.
-          viewBox "0 0 100 100" → coordinates are % of section-two width/height.
-          Endpoints derived from pixel analysis of omega_Openhand_PlusWriting.png.
-          Fine-tune x1/y1/x2/y2 values visually after first browser load.
-        -->
-        <svg class="palm-form__lines"
-             viewBox="0 0 100 100"
-             preserveAspectRatio="none"
-             aria-hidden="true">
-          <!-- First Name: palm (536,2750) → label (837,2438) [right side] -->
-          <!-- y = top_vh / 2.0  (section-two height = 200vh) -->
-          <line x1="49.1" y1="60.8" x2="61.5" y2="49.4"
-                stroke-width="1"
-                vector-effect="non-scaling-stroke"/>
-          <!-- E-Mail: palm (352,2808) → label (118,2405) [left side] -->
-          <line x1="41.5" y1="62.9" x2="31.9" y2="48.2"
-                stroke-width="1"
-                vector-effect="non-scaling-stroke"/>
-          <!-- Phone: palm (330,2916) → label (60,2774) [far left] -->
-          <line x1="40.6" y1="66.8" x2="29.5" y2="61.7"
-                stroke-width="1"
-                vector-effect="non-scaling-stroke"/>
-        </svg>
-
         <!-- Labels -->
         <label class="palm-form__label palm-form__label--fname" for="mce-FNAME">
           First Name
@@ -141,16 +126,19 @@
         <!-- First Name — required -->
         <input type="text"  name="FNAME"  id="mce-FNAME"
                class="palm-form__input palm-form__input--fname"
+               placeholder="First Name"
                autocomplete="given-name" required>
 
         <!-- E-Mail — required -->
         <input type="email" name="EMAIL"  id="mce-EMAIL"
                class="palm-form__input palm-form__input--email"
+               placeholder="E-Mail"
                autocomplete="email" required>
 
         <!-- Phone Number — optional -->
         <input type="tel"   name="PHONE"  id="mce-PHONE"
                class="palm-form__input palm-form__input--phone"
+               placeholder="Phone Number"
                autocomplete="tel">
 
         <!-- MailChimp anti-bot honeypot — must stay hidden -->
@@ -168,6 +156,22 @@
           SUBMIT
         </button>
       </form>
+      <!-- Footer logo group — bottom center of section-two -->
+      <div class="footer__logo-group">
+
+        <!-- Copyright — appears to the left on hover -->
+        <span class="footer__logo-left" aria-hidden="true">© 2026 Omega Sound Inc.</span>
+
+        <!-- Omega logo — starts flipped 180°, rotates upright on hover -->
+        <div class="footer__logo" aria-label="Omega Sound">
+          <img src="assets/omega_logo.png" alt="Omega Sound" draggable="false">
+        </div>
+
+        <!-- Rights — appears to the right on hover -->
+        <span class="footer__logo-right" aria-hidden="true">All rights reserved.</span>
+
+      </div>
+
     </section>
 
   </main>
@@ -175,6 +179,48 @@
   <!-- Connected-hands image — direct child of body so mix-blend-mode:screen
        blends against the WebGL canvas backdrop with no intermediate stacking
        context in the way. Spans hero + section two; intersection at ~100vh. -->
+  <!-- Device orb glow — direct body child, same stacking context as hands-connected -->
+  <div class="device-glow-zone" aria-hidden="true">
+    <div class="device-glow__particles">
+      <div class="device-glow__particle" data-i="1"></div>
+      <div class="device-glow__particle" data-i="2"></div>
+      <div class="device-glow__particle" data-i="3"></div>
+      <div class="device-glow__particle" data-i="4"></div>
+      <div class="device-glow__particle" data-i="5"></div>
+      <div class="device-glow__particle" data-i="6"></div>
+      <div class="device-glow__particle" data-i="7"></div>
+      <div class="device-glow__particle" data-i="8"></div>
+      <div class="device-glow__particle" data-i="9"></div>
+      <div class="device-glow__particle" data-i="10"></div>
+      <div class="device-glow__particle" data-i="11"></div>
+      <div class="device-glow__particle" data-i="12"></div>
+      <div class="device-glow__particle" data-i="13"></div>
+      <div class="device-glow__particle" data-i="14"></div>
+      <div class="device-glow__particle" data-i="15"></div>
+      <div class="device-glow__particle" data-i="16"></div>
+      <div class="device-glow__particle" data-i="17"></div>
+      <div class="device-glow__particle" data-i="18"></div>
+      <div class="device-glow__particle" data-i="19"></div>
+      <div class="device-glow__particle" data-i="20"></div>
+      <div class="device-glow__particle" data-i="21"></div>
+      <div class="device-glow__particle" data-i="22"></div>
+      <div class="device-glow__particle" data-i="23"></div>
+      <div class="device-glow__particle" data-i="24"></div>
+      <div class="device-glow__particle" data-i="25"></div>
+      <div class="device-glow__particle" data-i="26"></div>
+      <div class="device-glow__particle" data-i="27"></div>
+      <div class="device-glow__particle" data-i="28"></div>
+      <div class="device-glow__particle" data-i="29"></div>
+      <div class="device-glow__particle" data-i="30"></div>
+      <div class="device-glow__particle" data-i="31"></div>
+      <div class="device-glow__particle" data-i="32"></div>
+      <div class="device-glow__particle" data-i="33"></div>
+      <div class="device-glow__particle" data-i="34"></div>
+      <div class="device-glow__particle" data-i="35"></div>
+      <div class="device-glow__particle" data-i="36"></div>
+    </div>
+  </div>
+
   <img
     class="hands-connected"
     src="assets/omega_handsconnected.png"
@@ -191,14 +237,21 @@
     Inserts its WebGL canvas as body's first child at z-index:-1.
     No inline JS anywhere in this document.
   -->
-  <!-- omega_form_bg.js — Canvas 2D programmatic recreation of OmegaBackground.png -->
-  <script src="js/omega_form_bg.js"></script>
+  <!-- omega_form_bg_traced.js — Canvas 2D renderer from Inkscape SVG trace (131 paths, 4× supersampled) -->
+  <script src="js/omega_form_bg_traced.js"></script>
   <!-- section2_bg.js — inits a second canvas inside .section-two, flipped via CSS -->
   <script src="js/section2_bg.js"></script>
   <!-- omega_form_submit.js — JSONP submit, no redirect; shows thank-you below button -->
   <script src="js/omega_form_submit.js"></script>
   <!-- omega_hero_lines.js — draws OMEGA eyebrow → thumb connecting line -->
   <script src="js/omega_hero_lines.js"></script>
+  <!-- omega_device_glow.js — locks device-glow-zone to orb position on resize -->
+  <script src="js/omega_device_glow.js"></script>
+  <!-- omega_popup.js — pre-order modal, fires after 10 s on this page -->
+  <script>window.OMEGA_POPUP_DELAY = 10000;</script>
+  <script src="js/omega_popup.js"></script>
+  <!-- omega_intro.js — 2-second page-load entrance animation sequence -->
+  <script src="js/omega_intro.js"></script>
 
 </body>
 </html>

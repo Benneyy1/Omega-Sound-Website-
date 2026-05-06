@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo — Omega Sound</title>
+  <meta name="description" content="See Omega in action.">
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/demo.css">
+  <link rel="stylesheet" href="css/popup.css">
+</head>
+
+<body class="demo-page">
+
+  <!-- ── Header: Omega logo + hover nav ─────────────────────────── -->
+  <header class="demo-header">
+
+    <div class="hero__logo-group">
+
+      <!-- Social icons — appear to the left on hover -->
+      <div class="hero__logo-socials" aria-hidden="true">
+        <a href="https://www.instagram.com/omegasound/" class="hero__social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+          <img src="assets/instagram.png" alt="Instagram" draggable="false">
+        </a>
+        <a href="https://www.linkedin.com/company/omegasound/about/?viewAsMember=true" class="hero__social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+          <img src="assets/linkedin.jpeg" alt="LinkedIn" draggable="false">
+        </a>
+        <a href="https://www.youtube.com/@OmegaSoundInc" class="hero__social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+          <img src="assets/youtube.png" alt="YouTube" draggable="false">
+        </a>
+      </div>
+
+      <!-- Omega logo — rotates 180° on group hover -->
+      <div class="hero__logo" aria-label="Omega Sound">
+        <a href="index.html">
+          <img src="assets/omega_logo.png" alt="Omega Sound — Home" draggable="false">
+        </a>
+      </div>
+
+      <!-- Nav items — Demo (current) | About -->
+      <nav class="hero__logo-nav" aria-label="Site navigation">
+        <a href="demo.html" class="hero__logo-nav-item" aria-current="page">Demo</a>
+        <a href="about.html" class="hero__logo-nav-item">About</a>
+      </nav>
+
+    </div>
+
+  </header>
+
+  <!-- ── Demo video ──────────────────────────────────────────────── -->
+  <main class="demo-main">
+    <!--
+      YouTube Shorts embed — portrait 9:16 reel.
+      autoplay=1  — starts immediately.
+      mute=1      — required by browsers for autoplay; viewer can unmute via controls.
+      loop=1      — replays automatically (playlist= required by YouTube for loop).
+      rel=0       — no related videos at end.
+      modestbranding=1 — minimal YouTube chrome.
+    -->
+    <div class="demo-reel-wrap">
+      <iframe
+        class="demo-reel"
+        src="https://www.youtube.com/embed/gSnGL5n2MnU?autoplay=1&mute=1&loop=1&playlist=gSnGL5n2MnU&rel=0&modestbranding=1&playsinline=1"
+        title="Omega Sound Demo"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowfullscreen
+        frameborder="0"
+      ></iframe>
+    </div>
+  </main>
+
+  <!-- omega_popup.js — pre-order modal, always fires after 5 s on this page -->
+  <script>
+    sessionStorage.removeItem('omega_popup_shown');
+    window.OMEGA_POPUP_DELAY = 5000;
+  </script>
+  <script src="js/omega_popup.js"></script>
+
+</body>
+</html>

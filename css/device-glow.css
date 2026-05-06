@@ -1,0 +1,116 @@
+/* ════════════════════════════════════════════════════════════════
+   device-glow.css — Omega Sound Inc.
+   Particle animation for the device orb in omega_handsconnected.png.
+   Hover zone anchors at orb centroid (JS-positioned); pointer-events
+   pass through the image (pointer-events:none) and land here.
+   Fade in/out is driven by JS toggling .is-active on the zone.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Hover zone — zero-size anchor at device orb center ── */
+.device-glow-zone {
+  position: absolute;
+  /* JS overrides on load/resize; bbox center X=684/1248, Y=404/3328 */
+  top: 50.875vh;
+  left: 50%;
+  width: 0;
+  height: 0;
+  /* pointer-events:none — hover is detected via JS mousemove ellipse
+     hit-test so this element never interrupts background ripple events */
+  pointer-events: none;
+  z-index: 6;
+}
+
+
+/* ── Particles wrapper — fades in on hover, out on leave ──
+   The wrapper opacity is the only thing that changes on hover/leave;
+   the particle keyframes run continuously underneath so there is no
+   animation restart jank when the user re-enters. */
+.device-glow__particles {
+  opacity: 0;
+  transition: opacity 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+}
+
+.device-glow-zone.is-active .device-glow__particles {
+  opacity: 1;
+}
+
+/* ── Individual particles ── */
+.device-glow__particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #88CCF1;
+  pointer-events: none;
+  /* Always animating — wrapper opacity controls visibility */
+  animation: device-particle-drift 2.4s ease-out infinite;
+}
+
+/* ── Direction vectors at 10° increments (36 particles) ──
+   --dx / --dy are unit-circle components; animation-delay staggers
+   the particles evenly across one full cycle (2.4s / 36 ≈ 0.067s). */
+.device-glow__particle[data-i="1"]  { --dx:  1.000; --dy:  0.000; animation-delay: 0.000s; }
+.device-glow__particle[data-i="2"]  { --dx:  0.985; --dy:  0.174; animation-delay: 0.067s; }
+.device-glow__particle[data-i="3"]  { --dx:  0.940; --dy:  0.342; animation-delay: 0.133s; }
+.device-glow__particle[data-i="4"]  { --dx:  0.866; --dy:  0.500; animation-delay: 0.200s; }
+.device-glow__particle[data-i="5"]  { --dx:  0.766; --dy:  0.643; animation-delay: 0.267s; }
+.device-glow__particle[data-i="6"]  { --dx:  0.643; --dy:  0.766; animation-delay: 0.333s; }
+.device-glow__particle[data-i="7"]  { --dx:  0.500; --dy:  0.866; animation-delay: 0.400s; }
+.device-glow__particle[data-i="8"]  { --dx:  0.342; --dy:  0.940; animation-delay: 0.467s; }
+.device-glow__particle[data-i="9"]  { --dx:  0.174; --dy:  0.985; animation-delay: 0.533s; }
+.device-glow__particle[data-i="10"] { --dx:  0.000; --dy:  1.000; animation-delay: 0.600s; }
+.device-glow__particle[data-i="11"] { --dx: -0.174; --dy:  0.985; animation-delay: 0.667s; }
+.device-glow__particle[data-i="12"] { --dx: -0.342; --dy:  0.940; animation-delay: 0.733s; }
+.device-glow__particle[data-i="13"] { --dx: -0.500; --dy:  0.866; animation-delay: 0.800s; }
+.device-glow__particle[data-i="14"] { --dx: -0.643; --dy:  0.766; animation-delay: 0.867s; }
+.device-glow__particle[data-i="15"] { --dx: -0.766; --dy:  0.643; animation-delay: 0.933s; }
+.device-glow__particle[data-i="16"] { --dx: -0.866; --dy:  0.500; animation-delay: 1.000s; }
+.device-glow__particle[data-i="17"] { --dx: -0.940; --dy:  0.342; animation-delay: 1.067s; }
+.device-glow__particle[data-i="18"] { --dx: -0.985; --dy:  0.174; animation-delay: 1.133s; }
+.device-glow__particle[data-i="19"] { --dx: -1.000; --dy:  0.000; animation-delay: 1.200s; }
+.device-glow__particle[data-i="20"] { --dx: -0.985; --dy: -0.174; animation-delay: 1.267s; }
+.device-glow__particle[data-i="21"] { --dx: -0.940; --dy: -0.342; animation-delay: 1.333s; }
+.device-glow__particle[data-i="22"] { --dx: -0.866; --dy: -0.500; animation-delay: 1.400s; }
+.device-glow__particle[data-i="23"] { --dx: -0.766; --dy: -0.643; animation-delay: 1.467s; }
+.device-glow__particle[data-i="24"] { --dx: -0.643; --dy: -0.766; animation-delay: 1.533s; }
+.device-glow__particle[data-i="25"] { --dx: -0.500; --dy: -0.866; animation-delay: 1.600s; }
+.device-glow__particle[data-i="26"] { --dx: -0.342; --dy: -0.940; animation-delay: 1.667s; }
+.device-glow__particle[data-i="27"] { --dx: -0.174; --dy: -0.985; animation-delay: 1.733s; }
+.device-glow__particle[data-i="28"] { --dx:  0.000; --dy: -1.000; animation-delay: 1.800s; }
+.device-glow__particle[data-i="29"] { --dx:  0.174; --dy: -0.985; animation-delay: 1.867s; }
+.device-glow__particle[data-i="30"] { --dx:  0.342; --dy: -0.940; animation-delay: 1.933s; }
+.device-glow__particle[data-i="31"] { --dx:  0.500; --dy: -0.866; animation-delay: 2.000s; }
+.device-glow__particle[data-i="32"] { --dx:  0.643; --dy: -0.766; animation-delay: 2.067s; }
+.device-glow__particle[data-i="33"] { --dx:  0.766; --dy: -0.643; animation-delay: 2.133s; }
+.device-glow__particle[data-i="34"] { --dx:  0.866; --dy: -0.500; animation-delay: 2.200s; }
+.device-glow__particle[data-i="35"] { --dx:  0.940; --dy: -0.342; animation-delay: 2.267s; }
+.device-glow__particle[data-i="36"] { --dx:  0.985; --dy: -0.174; animation-delay: 2.333s; }
+
+/* ── Keyframe — particle spawns at orb boundary, drifts outward, fades ── */
+@keyframes device-particle-drift {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%)
+               translate(calc(var(--dx) * 11vh), calc(var(--dy) * 13vh))
+               scale(1.2);
+  }
+  12% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%)
+               translate(calc(var(--dx) * 20vh), calc(var(--dy) * 22vh))
+               scale(0.3);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   RESPONSIVE — hide on mobile (no hover on touch)
+   ════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .device-glow-zone {
+    display: none;
+  }
+}

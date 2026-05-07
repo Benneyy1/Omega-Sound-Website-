@@ -182,7 +182,7 @@
   .palm-form {
     inset: unset;
     position: absolute;
-    top: 40vh;
+    top: 18vh;
     left: 50%;
     transform: translateX(-50%);
     width: 82vw;

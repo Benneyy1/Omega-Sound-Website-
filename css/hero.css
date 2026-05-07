@@ -324,9 +324,14 @@
     height: 28px;
   }
 
-  /* Hide nav row on mobile — no room beside the logo in column layout */
+  /* Nav: always visible below socials in column layout — hover doesn't work on touch */
   .hero__logo-nav {
-    display: none;
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    flex-direction: row;
+    gap: clamp(16px, 5vw, 28px);
   }
 }
 }

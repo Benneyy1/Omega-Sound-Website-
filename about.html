@@ -13,6 +13,9 @@
 
 <body class="about-page">
 
+  <!-- Background canvas — traced pattern, covers full viewport, reveals on load. -->
+  <div id="about-bg-top" aria-hidden="true"></div>
+
   <!-- ── Nav: same logo group as hero ───────────────────────────── -->
   <div class="hero__logo-group">
     <div class="hero__logo-socials" aria-hidden="true">
@@ -52,7 +55,7 @@
         <!-- Main portrait -->
         <img
           class="about-photo-main"
-          src="../AboutPage/WhatsApp%20Image%202026-05-01%20at%2010.24.20%201.png"
+          src="assets/about/WhatsApp%20Image%202026-05-01%20at%2010.24.20%201.png"
           alt="Benjamin Schultz"
           draggable="false"
         >
@@ -60,13 +63,13 @@
         <!-- Two side-by-side photos -->
         <div class="about-photo-pair">
           <img
-            src="../AboutPage/IMG_0932%201.png"
+            src="assets/about/IMG_0932%201.png"
             alt=""
             role="presentation"
             draggable="false"
           >
           <img
-            src="../AboutPage/IMG_1394%201.png"
+            src="assets/about/IMG_1394%201.png"
             alt=""
             role="presentation"
             draggable="false"
@@ -76,7 +79,7 @@
         <!-- Bottom photo — stays in left column -->
         <img
           class="about-photo-bottom"
-          src="../AboutPage/IMG_9838%201.png"
+          src="assets/about/IMG_9838%201.png"
           alt=""
           role="presentation"
           draggable="false"
@@ -115,6 +118,10 @@
     </div>
 
   </main>
+
+  <!-- omega_form_bg_traced.js must load before about_bg.js (exposes initOmegaFormBg) -->
+  <script src="js/omega_form_bg_traced.js"></script>
+  <script src="js/about_bg.js"></script>
 
 </body>
 </html>

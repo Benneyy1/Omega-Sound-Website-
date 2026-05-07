@@ -220,8 +220,9 @@
   var _sharedRippleT0 = null;
 
   /* ── Public initialiser ─────────────────────────────────────────────── */
-  function initOmegaFormBg(container) {
-    var target = container || document.body;
+  function initOmegaFormBg(container, options) {
+    var target           = container || document.body;
+    var _revealFromBottom = !!(options && options.revealFromBottom);
     var canvas = document.createElement('canvas');
     canvas.id = 'omega-form-bg';
 
@@ -359,7 +360,7 @@
     var staticCanvas = document.createElement('canvas');
     var staticCtx    = staticCanvas.getContext('2d');
     var _outW = 0, _outH = 0;
-    var _progress = 1; /* 0–1: top-to-bottom reveal fraction (1 = fully visible) */
+    var _progress = 0; /* 0–1: top-to-bottom reveal fraction (0 = hidden until intro animates it in) */
 
     /* Paint staticCanvas → visible canvas with optional top-to-bottom clip.
        Called by resize() and setProgress() — keeps the expensive offscreen
@@ -370,7 +371,13 @@
       ctx.save();
       if (_progress < 1) {
         ctx.beginPath();
-        ctx.rect(0, 0, _outW, _outH * _progress);
+        /* revealFromBottom: clip expands upward from canvas bottom.
+           After CSS scaleY(-1) this appears as top-to-bottom visually. */
+        if (_revealFromBottom) {
+          ctx.rect(0, _outH * (1 - _progress), _outW, _outH * _progress);
+        } else {
+          ctx.rect(0, 0, _outW, _outH * _progress);
+        }
         ctx.clip();
       }
       ctx.drawImage(staticCanvas, 0, 0);
@@ -447,11 +454,22 @@
 
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, _outW, _outH);
+      ctx.save();
+      if (_progress < 1) {
+        ctx.beginPath();
+        if (_revealFromBottom) {
+          ctx.rect(0, _outH * (1 - _progress), _outW, _outH * _progress);
+        } else {
+          ctx.rect(0, 0, _outW, _outH * _progress);
+        }
+        ctx.clip();
+      }
       for (var y = 0; y < _outH; y += STRIP) {
         var h    = Math.min(STRIP, _outH - y);
         var xOff = Math.round(Math.sin(y * RIPPLE_FREQ + t * RIPPLE_SPEED) * RIPPLE_AMP);
         ctx.drawImage(staticCanvas, 0, y, _outW, h, xOff, y, _outW, h);
       }
+      ctx.restore();
 
       if (_rippling) _rippleRaf = requestAnimationFrame(_drawRippleFrame);
     }
@@ -520,12 +538,13 @@
   }
 
   /* Auto-init when dropped directly into a page as a <script> tag.
-     Targets .hero so the canvas is position:absolute inside the section
-     and scrolls with the page.  Falls back to body if .hero is absent. */
+     Only runs on pages that have a .hero section — pages without one
+     (e.g. about.html) manage their own canvases via a separate script. */
   if (typeof document !== 'undefined') {
     function _autoInit() {
       var hero = document.querySelector('.hero');
-      window._omegaHeroBg = initOmegaFormBg(hero || undefined);
+      if (!hero) return;
+      window._omegaHeroBg = initOmegaFormBg(hero);
     }
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', _autoInit);

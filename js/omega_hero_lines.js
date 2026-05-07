@@ -49,6 +49,9 @@
     line.setAttribute('y2', y2.toFixed(2));
   }
 
+  /* Expose for omega_intro.js to call during slide-up animation */
+  window._positionHeroLine = positionLine;
+
   function init() {
     positionLine();
     window.addEventListener('resize', positionLine);

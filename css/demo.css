@@ -83,9 +83,14 @@
     max-height: calc(100vh - clamp(80px, 10vh, 120px));
   }
 
-  /* Hide hover nav — no hover on touch */
+  /* Nav: always visible below socials — hover doesn't work on touch */
   .demo-header .hero__logo-nav {
-    display: none;
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    flex-direction: row;
+    gap: clamp(16px, 5vw, 28px);
   }
 
   /* Keep logo centered and socials visible below it */

@@ -65,6 +65,21 @@
       heroLines.style.transition = 'opacity 1.8s ease';
       heroLines.style.opacity    = '1';
 
+      /* Track eyebrow position each frame during the slide-up (2.4s) so the
+         connecting line stays anchored under "OMEGA" as the text translates up. */
+      var trackStart = null;
+      var trackDuration = 2500; /* slightly longer than the 2.4s transition */
+      function trackLine(ts) {
+        if (!trackStart) trackStart = ts;
+        if (typeof window._positionHeroLine === 'function') {
+          window._positionHeroLine();
+        }
+        if (ts - trackStart < trackDuration) {
+          requestAnimationFrame(trackLine);
+        }
+      }
+      requestAnimationFrame(trackLine);
+
       /* Step 3: background lines reveal top-to-bottom over 3s */
       startBgAnimation();
     }, 3000);

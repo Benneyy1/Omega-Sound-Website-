@@ -5,9 +5,20 @@
 
 /* ── Page base ── */
 .about-page {
-  background: #FAFAFA;
+  background: transparent; /* html white shows through unrevealed canvas areas */
   color: var(--void);
   min-height: 100vh;
+}
+
+/* ── Background canvas — fixed full-viewport, behind all content ── */
+#about-bg-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* ── Nav: fixed top-center, override hero.css absolute ── */
@@ -28,6 +39,7 @@
   max-width: 1040px;
   margin: 0 auto;
   padding: 148px 40px 80px;
+  position: relative;
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -191,6 +203,11 @@
   }
 
   .about-page .hero__logo-nav {
-    display: none;
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    flex-direction: row;
+    gap: clamp(16px, 5vw, 28px);
   }
 }

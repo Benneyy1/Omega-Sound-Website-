@@ -48,28 +48,37 @@
     zone.style.left = _anchorX.toFixed(2) + 'px';
   }
 
+  function hitTest(clientX, clientY) {
+    var cx = clientX + window.scrollX;
+    var cy = clientY + window.scrollY;
+    var dx = cx - _anchorX;
+    var dy = cy - _anchorY;
+    return (dx * dx) / (_semiX * _semiX) +
+           (dy * dy) / (_semiY * _semiY) <= 1;
+  }
+
   function attachHover() {
     var zone    = document.querySelector('.device-glow-zone');
     if (!zone) return;
     var _active = false;
 
     document.addEventListener('mousemove', function (e) {
-      /* Cursor position in document coords (accounts for scroll) */
-      var cx = e.clientX + window.scrollX;
-      var cy = e.clientY + window.scrollY;
-
-      /* Ellipse hit-test: (dx/a)² + (dy/b)² ≤ 1 */
-      var dx = cx - _anchorX;
-      var dy = cy - _anchorY;
-      var inside = (dx * dx) / (_semiX * _semiX) +
-                   (dy * dy) / (_semiY * _semiY) <= 1;
+      var inside = hitTest(e.clientX, e.clientY);
 
       if (inside && !_active) {
         _active = true;
         zone.classList.add('is-active');
+        document.body.style.cursor = 'pointer';
       } else if (!inside && _active) {
         _active = false;
         zone.classList.remove('is-active');
+        document.body.style.cursor = '';
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (hitTest(e.clientX, e.clientY)) {
+        window.location.href = 'demo.html';
       }
     });
   }

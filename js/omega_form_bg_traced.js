@@ -488,12 +488,10 @@
       paint();
     }
 
-    /* Attach to document.body (not target) so crossing the seam between the
-       two mirrored canvases — which stays within body — never fires leave/enter
-       and never resets or restarts the ripple. Ripple stops only when the cursor
-       leaves the page entirely. Debounce guards against rapid page-edge crossings. */
+    /* Attach to target so the ripple only fires while the cursor is over
+       the lines canvas, not whenever the cursor is anywhere on the page. */
     var _enterTimer = null, _leaveTimer = null;
-    document.body.addEventListener('mouseenter', function () {
+    target.addEventListener('mouseenter', function () {
       clearTimeout(_leaveTimer);
       _leaveTimer = null;
       if (!_enterTimer) _enterTimer = setTimeout(function () {
@@ -501,7 +499,7 @@
         _startRipple();
       }, 120);
     });
-    document.body.addEventListener('mouseleave', function () {
+    target.addEventListener('mouseleave', function () {
       clearTimeout(_enterTimer);
       _enterTimer = null;
       if (!_leaveTimer) _leaveTimer = setTimeout(function () {

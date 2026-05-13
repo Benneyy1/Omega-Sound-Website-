@@ -8,22 +8,24 @@
   background: transparent; /* html white shows through unrevealed canvas areas */
   color: var(--void);
   min-height: 100vh;
+  position: relative; /* anchors absolute #about-bg-top */
 }
 
-/* ── Background canvas — fixed full-viewport, behind all content ── */
+/* ── Background canvas — same dimensions as .hero on home page ── */
 #about-bg-top {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  pointer-events: none;
+  height: 145.6vh;
+  min-height: 700px;
   z-index: -1;
+  filter: blur(6px);
 }
 
-/* ── Nav: fixed top-center, override hero.css absolute ── */
+/* ── Nav: absolute top-center — stays at page top, doesn't follow scroll ── */
 .about-page .hero__logo-group {
-  position: fixed;
+  position: absolute;
   top: var(--space-lg);
   left: 50%;
   transform: translateX(-50%);
@@ -38,7 +40,7 @@
 .about-wrap {
   max-width: 1040px;
   margin: 0 auto;
-  padding: 148px 40px 80px;
+  padding: 148px 40px 0;
   position: relative;
 }
 
@@ -117,9 +119,9 @@
 
 .about-right p {
   font-family: var(--font-sans);
-  font-size: clamp(0.8rem, 1vw, 0.9rem);
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
   font-weight: 400;
-  line-height: 1.65;
+  line-height: 1.7;
   color: var(--void);
   margin: 0;
 }
@@ -131,15 +133,6 @@
   display: block;
   object-fit: cover;
   aspect-ratio: 4 / 3;
-}
-
-/* ════════════════════════════════════════════════════════════════
-   QUOTE — below the grid, left-offset to align with right column
-   300px left col + 48px gap = 348px
-   ════════════════════════════════════════════════════════════════ */
-.about-bottom-row {
-  margin-top: -120px;
-  padding-left: calc(300px + 48px);
 }
 
 .about-quote {
@@ -174,7 +167,7 @@
   }
 
   .about-right p {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 
   .about-photo-bottom {

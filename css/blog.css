@@ -23,15 +23,6 @@
   filter: blur(6px);
 }
 
-/* ── Nav: absolute top-center ── */
-.blog-page .hero__logo-group {
-  position: absolute;
-  top: var(--space-lg);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
-}
-
 .blog-page .hero__social-link img {
   mix-blend-mode: normal;
 }
@@ -332,32 +323,4 @@
     padding: var(--space-lg) var(--space-md);
   }
 
-  .blog-page .hero__logo-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .blog-page .hero__logo-group::before {
-    display: none;
-  }
-
-  .blog-page .hero__logo-socials {
-    position: static;
-    opacity: 1;
-    pointer-events: auto;
-    transform: none;
-    flex-direction: row;
-    gap: 20px;
-  }
-
-  .blog-page .hero__logo-nav {
-    position: static;
-    opacity: 1;
-    pointer-events: auto;
-    transform: none;
-    flex-direction: row;
-    gap: clamp(16px, 5vw, 28px);
-  }
 }

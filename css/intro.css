@@ -6,6 +6,6 @@
    ══════════════════════════════════════════════════════════════ */
 
 .hands-connected  { opacity: 0; }
-.hero__logo-group { opacity: 0; }
+.site-banner      { opacity: 0; }
 .hero__text       { opacity: 0; transform: translateY(50px); }
 .hero__lines      { opacity: 0; }

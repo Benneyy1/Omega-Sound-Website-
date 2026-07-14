@@ -7,16 +7,133 @@
 .hero {
   position: relative;
   width: 100%;
-  /* Height aligned to Y:1672 of omega_handsconnected.png (1248×3328):
-     page_Y = 20vh + (1672/3328 × 250vh) = 145.6vh
-     This is the mirror axis where canvas 1 ends and canvas 2 begins. */
-  height: 145.6vh;
-  min-height: 700px;
+  /* Reduced to half: was 145.6vh (two-canvas mirror design).
+     Now 72.8vh — single canvas, no mirrored section2 background. */
+  height: 27.3vh;
+  min-height: 150px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 
+
+
+/* ════════════════════════════════════════════════════════════════
+   SITE BANNER — collapsed pill around the logo, expands on hover
+   ════════════════════════════════════════════════════════════════ */
+.site-banner {
+  position: absolute;
+  top: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  /* Collapsed: just wide enough to frame the logo */
+  width: clamp(96px, 14vw, 164px);
+  height: clamp(60px, 12.5vh, 96px);
+  background: #ffffff;
+  border-radius: 999px;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  transition: width 0.48s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  white-space: nowrap;
+}
+
+/* Expanded: grows to reveal socials + nav */
+.site-banner:hover {
+  width: min(640px, calc(100vw - 1.5rem));
+}
+
+/* Once video hero scrolls away, JS adds .is-fixed so banner sticks to viewport top */
+.site-banner.is-fixed {
+  position: fixed;
+  top: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Logo group: switch to flex row so socials/nav flow beside the logo */
+.site-banner .hero__logo-group {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  padding-top: 6px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+}
+
+/* Suppress the wide invisible hover bridge — not needed inside the banner */
+.site-banner .hero__logo-group::before {
+  display: none;
+}
+
+/* Socials: in-flow flex row, hidden by max-width clipping until banner expands */
+.site-banner .hero__logo-socials {
+  position: static;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: clamp(14px, 2vw, 28px);
+  order: -1;                       /* sits LEFT of the logo */
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding-right: 0;
+  pointer-events: none;
+  transform: none;
+  transition:
+    max-width 0.48s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity    0.28s ease 0.14s,
+    padding-right 0.48s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.site-banner:hover .hero__logo-socials {
+  max-width: 280px;
+  opacity: 1;
+  padding-right: clamp(20px, 2.8vw, 40px);
+  pointer-events: auto;
+}
+
+/* Nav: in-flow flex row, hidden by max-width clipping until banner expands */
+.site-banner .hero__logo-nav {
+  position: static;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: clamp(16px, 2.5vw, 36px);
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding-left: 0;
+  pointer-events: none;
+  transform: none;
+  transition:
+    max-width 0.48s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity    0.28s ease 0.14s,
+    padding-left 0.48s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.site-banner:hover .hero__logo-nav {
+  max-width: 280px;
+  opacity: 1;
+  padding-left: clamp(20px, 2.8vw, 40px);
+  pointer-events: auto;
+}
+
+/* Neutralise the base .hero__logo-group:hover transforms inside the banner —
+   those rules (0-3-0) would apply translateY(-50%) and misalign the items.
+   These selectors are 0-4-0 so they always win. */
+.site-banner .hero__logo-group:hover .hero__logo-socials {
+  transform: none;
+}
+.site-banner .hero__logo-group:hover .hero__logo-nav {
+  transform: none;
+}
 
 
 /* ════════════════════════════════════════════════════════════════
@@ -45,14 +162,23 @@
   right: -28vw;
   top: -4vh;
   bottom: -4vh;
+  /* Allow clicks to pass through to child elements (logo link, social icons, nav).
+     Without this, the bridge intercepts every pointer event in the extended area. */
+  pointer-events: none;
 }
 
-/* ── Omega Logo mark — only in-flow child ── */
+/* ── Omega Logo mark — only in-flow child, links to home ── */
 .hero__logo {
   width: clamp(64px, 8vw, 104px);
   height: auto;
   display: block;
-  transition: transform 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+  text-decoration: none;
+  /* Must sit above the ::before hover-bridge pseudo-element,
+     which is position:absolute and otherwise covers the logo,
+     swallowing clicks before they reach this <a>. */
+  position: relative;
+  z-index: 1;
 }
 
 .hero__logo img {
@@ -61,10 +187,10 @@
   display: block;
 }
 
-/* Rotate 180° on group hover */
+/* Logo spin on hover — disabled
 .hero__logo-group:hover .hero__logo {
   transform: rotate(180deg);
-}
+} */
 
 /* ── Social icons — absolutely positioned LEFT of logo ──
    Offset derived from OmegaLogoFlipEG.png: gap ≈ 8–9 vw between the
@@ -85,7 +211,9 @@
   gap: clamp(20px, 2.8vw, 40px);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+  /* Slower fade-out (0.9s) compensates for the hover bridge having
+     pointer-events:none — gives the cursor time to reach the icons. */
+  transition: opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
@@ -126,7 +254,8 @@
 
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+  /* Slower fade-out matches socials — see socials comment above. */
+  transition: opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
@@ -197,7 +326,7 @@
 
 .hero__text {
   position: absolute;
-  top: clamp(300px, 52vh, 520px);
+  top: clamp(120px, 22vh, 220px);
   left: clamp(var(--space-lg), 5vw, 80px);
   z-index: 10;
   display: flex;
@@ -333,5 +462,4 @@
     flex-direction: row;
     gap: clamp(16px, 5vw, 28px);
   }
-}
 }

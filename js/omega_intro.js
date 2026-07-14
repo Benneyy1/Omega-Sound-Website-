@@ -1,14 +1,13 @@
 /**
  * omega_intro.js — Page-load entrance animation
  *
- * Sequence (total: 6 seconds):
+ * Sequence (total: 4.5 seconds):
  *   t=0.0s → 1.5s  Step 1: .hands-connected fades in
- *   t=1.5s → 3.0s  Step 2: .hero__logo-group fades in
- *   t=3.0s → 6.0s  Step 3: background lines reveal top-to-bottom (via window._omegaHeroBg)
- *   t=3.0s → 6.0s  Step 4: .hero__text + .hero__lines slide up + fade in (simultaneous with 3)
+ *   t=1.5s → 4.5s  Step 2: background lines reveal top-to-bottom (via window._omegaHeroBg)
+ *   t=1.5s → 4.5s  Step 3: .hero__text + .hero__lines slide up + fade in (simultaneous with 2)
  *
- * At t≈6.3s, inline transitions are cleared so the CSS hover gradient
- * transition (defined in hero.css) is restored.
+ * .hero__logo-group (now in the site-banner) is always visible — no delay.
+ * At t≈4.8s, inline transitions are cleared so CSS hover transitions are restored.
  */
 (function () {
   'use strict';
@@ -22,7 +21,7 @@
     if (!bg || typeof bg.setProgress !== 'function') return;
 
     var start    = null;
-    var duration = 3000; // 3 seconds
+    var duration = 3000;
 
     function step(ts) {
       if (!start) start = ts;
@@ -36,65 +35,63 @@
 
   function init() {
     var hands     = document.querySelector('.hands-connected');
-    var logoGroup = document.querySelector('.hero__logo-group');
+    var banner    = document.querySelector('.site-banner');
     var heroText  = document.querySelector('.hero__text');
     var heroLines = document.querySelector('.hero__lines');
 
-    if (!hands || !logoGroup || !heroText || !heroLines) return;
+    if (!hands) return;
 
-    /* Step 1: t=0s — hands-connected fades in over 1.5s */
+    /* Step 1: t=0s — hands + banner fade in over 1.5s.
+       Double-rAF: outer frame lets the browser paint opacity:0 (from intro.css),
+       inner frame then starts the transition so it animates from that painted state. */
     requestAnimationFrame(function () {
-      hands.style.transition = 'opacity 1.5s ease';
-      hands.style.opacity    = '1';
+      requestAnimationFrame(function () {
+        hands.style.transition = 'opacity 1.5s ease';
+        hands.style.opacity    = '1';
+        if (banner) {
+          banner.style.transition = 'opacity 1.5s ease, width 0.48s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          banner.style.opacity    = '1';
+        }
+      });
     });
 
-    /* Step 2: t=1.5s — logo fades in over 1.5s */
+    /* Steps 2 + 3: t=1.5s — only run if text/lines elements are present */
     setTimeout(function () {
-      logoGroup.style.transition = 'opacity 1.5s ease';
-      logoGroup.style.opacity    = '1';
+      if (heroText) {
+        heroText.style.transition = 'opacity 2.4s ease, transform 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        heroText.style.opacity    = '1';
+        heroText.style.transform  = 'translateY(0)';
+      }
+
+      if (heroLines) {
+        heroLines.style.transition = 'opacity 1.8s ease';
+        heroLines.style.opacity    = '1';
+
+        var trackStart = null;
+        var trackDuration = 2500;
+        function trackLine(ts) {
+          if (!trackStart) trackStart = ts;
+          if (typeof window._positionHeroLine === 'function') {
+            window._positionHeroLine();
+          }
+          if (ts - trackStart < trackDuration) {
+            requestAnimationFrame(trackLine);
+          }
+        }
+        requestAnimationFrame(trackLine);
+      }
+
+      startBgAnimation();
     }, 1500);
 
-    /* Steps 3 + 4: t=3.0s — simultaneous */
+    /* Cleanup */
     setTimeout(function () {
-      /* Step 4a: hero text slides up + fades in */
-      heroText.style.transition = 'opacity 2.4s ease, transform 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-      heroText.style.opacity    = '1';
-      heroText.style.transform  = 'translateY(0)';
-
-      /* Step 4b: SVG connecting line fades in */
-      heroLines.style.transition = 'opacity 1.8s ease';
-      heroLines.style.opacity    = '1';
-
-      /* Track eyebrow position each frame during the slide-up (2.4s) so the
-         connecting line stays anchored under "OMEGA" as the text translates up. */
-      var trackStart = null;
-      var trackDuration = 2500; /* slightly longer than the 2.4s transition */
-      function trackLine(ts) {
-        if (!trackStart) trackStart = ts;
-        if (typeof window._positionHeroLine === 'function') {
-          window._positionHeroLine();
-        }
-        if (ts - trackStart < trackDuration) {
-          requestAnimationFrame(trackLine);
-        }
-      }
-      requestAnimationFrame(trackLine);
-
-      /* Step 3: background lines reveal top-to-bottom over 3s */
-      startBgAnimation();
-    }, 3000);
-
-    /* Cleanup: clear inline transition so CSS hover transitions are restored.
-       Opacity/transform inline styles stay so intro.css rules are not re-exposed.
-       Fire a synthetic resize so omega_hero_lines.js repositions the line now
-       that heroText is at its final translateY(0) position. */
-    setTimeout(function () {
-      heroText.style.transition  = '';
-      heroLines.style.transition = '';
-      hands.style.transition     = '';
-      logoGroup.style.transition = '';
+      if (heroText)  heroText.style.transition  = '';
+      if (heroLines) heroLines.style.transition = '';
+      hands.style.transition = '';
+      if (banner) banner.style.transition = '';
       window.dispatchEvent(new Event('resize'));
-    }, 6300);
+    }, 4800);
   }
 
   if (document.readyState === 'loading') {

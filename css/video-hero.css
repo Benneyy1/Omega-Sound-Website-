@@ -1,0 +1,228 @@
+/* ════════════════════════════════════════════════════════════════
+   video-hero.css — Omega Sound Inc.
+   Full-viewport ambient video hero + YouTube modal lightbox
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Video Hero Section ── */
+.hero-video {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden; /* safe now: banner fits within 100dvh; fixed banner leaves this context */
+}
+
+/* Background video — edge-to-edge cover, no controls */
+.hero-video__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Gradient overlay — ensures text reads over any video frame */
+.hero-video__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.38) 0%,
+    rgba(0, 0, 0, 0.18) 45%,
+    rgba(0, 0, 0, 0.52) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Text + CTA — inside section-two, 1/6th down from its top ── */
+.hero-video__content {
+  position: absolute;
+  top: calc(100dvh / 6);
+  left: clamp(var(--space-lg), 5vw, 80px);
+  transform: none;
+  z-index: 6;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(6px, 1.2vh, 16px);
+}
+
+/* "The Omega" headline */
+.hero-video__title {
+  font-family: var(--font-condensed);
+  font-size: clamp(2.8rem, 8.8vw, 7.6rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  color: #88CCF1;
+}
+
+/* "Discover your Musical Creativity" subtext */
+.hero-video__subtitle {
+  font-family: var(--font-condensed);
+  font-size: clamp(0.8rem, 1.8vw, 1.4rem);
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #2a5fc4;
+  margin-top: clamp(2px, 0.5vh, 8px);
+}
+
+/* Play video trigger — bottom-left corner of the video canvas */
+.hero-video__play {
+  position: absolute;
+  bottom: clamp(24px, 4vh, 48px);
+  left: clamp(var(--space-lg), 5vw, 80px);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: clamp(0.72rem, 1.3vw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  border-radius: 999px;
+  padding: 0.65em 1.5em 0.65em 1.2em;
+  cursor: pointer;
+  transition: background 0.22s ease, border-color 0.22s ease;
+}
+
+.hero-video__play:hover {
+  background: rgba(255, 255, 255, 0.11);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-video__play:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.75);
+  outline-offset: 3px;
+}
+
+.hero-video__play-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   VIDEO MODAL — YouTube lightbox
+   ════════════════════════════════════════════════════════════════ */
+
+.video-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-modal[hidden] {
+  display: none;
+}
+
+/* Clickable backdrop */
+.video-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.90);
+  cursor: pointer;
+}
+
+/* Centered container — aspect-ratio: 16/9, responsive width */
+.video-modal__container {
+  position: relative;
+  z-index: 1;
+  width: min(1100px, calc(100vw - 32px));
+  aspect-ratio: 16 / 9;
+}
+
+/* iframe wrapper */
+.video-modal__frame {
+  position: absolute;
+  inset: 0;
+  background: #000;
+}
+
+.video-modal__frame iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* × Close button — sits above the top-right corner of the video */
+.video-modal__close {
+  position: absolute;
+  top: -46px;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.video-modal__close:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: #ffffff;
+}
+
+.video-modal__close:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.75);
+  outline-offset: 3px;
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.video-modal:not([hidden]) .video-modal__container {
+  animation: modal-in 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile
+   ════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .hero-video__title {
+    font-size: clamp(2.4rem, 12vw, 3.6rem);
+  }
+
+  .hero-video__subtitle {
+    font-size: clamp(0.7rem, 3.2vw, 0.88rem);
+    letter-spacing: 0.14em;
+  }
+
+  .hero-video__play {
+    font-size: 0.75rem;
+    padding: 0.6em 1.2em 0.6em 1em;
+  }
+
+  .video-modal__container {
+    width: calc(100vw - 16px);
+  }
+
+  .video-modal__close {
+    top: -42px;
+    right: 0;
+  }
+}

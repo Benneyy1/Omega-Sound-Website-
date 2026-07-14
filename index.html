@@ -7,13 +7,13 @@
   <meta name="description" content="Your body already speaks music. Omega lets you hear it.">
 
   <!-- intro.css must load first — sets elements to opacity:0 before render -->
-  <link rel="stylesheet" href="css/intro.css">
+  <link rel="stylesheet" href="css/intro.css?v=20">
   <!-- Styles: tokens + reset first, then hero-specific layout -->
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/hero.css">
-  <link rel="stylesheet" href="css/section2.css">
-  <link rel="stylesheet" href="css/section2-form.css">
-  <link rel="stylesheet" href="css/device-glow.css">
+  <link rel="stylesheet" href="css/base.css?v=24">
+  <link rel="stylesheet" href="css/video-hero.css?v=26">
+  <link rel="stylesheet" href="css/hero.css?v=20">
+  <link rel="stylesheet" href="css/section2.css?v=39">
+  <link rel="stylesheet" href="css/section2-form.css?v=20">
 
   <!-- No Google Fonts CDN — system serif fallback in effect -->
 
@@ -25,137 +25,84 @@
   <!-- omega_dunes_bg.js auto-injects its WebGL canvas as body's first child -->
 
   <main>
-    <section class="hero" aria-label="Hero">
 
-      <!-- ── Omega Logo: Top Center ────────────────────────────── -->
-      <!--
-        Inline SVG Ω letterform.
-        viewBox: 0 0 48 48
-        Gradient: #0A2463 (top) → #88CCF1 (bottom)
-        Geometry: 280° open arc with two horizontal feet — classic omega.
-        All stroke; no fill; no <text> element.
-      -->
-      <!-- Hover group: socials ← logo → about -->
-      <div class="hero__logo-group">
+    <!-- ══════════════════════════════════════════════════════════════
+         VIDEO HERO — Full-viewport ambient background with play trigger
+         ⚠️  Video (70 MB): compress for production with ffmpeg:
+             ffmpeg -i assets/LifeIsAPerformance_OmegaAD2.mp4 \
+               -vcodec libx264 -crf 23 -preset slow -an -movflags +faststart \
+               assets/omega_section_hero_bg.mp4
+             Target < 10 MB.
+         ══════════════════════════════════════════════════════════════ -->
+    <section class="hero-video" aria-label="Omega hero">
 
-        <!-- Social icons — appear to the left on hover -->
-        <div class="hero__logo-socials" aria-hidden="true">
-          <a href="https://www.instagram.com/omegasound/" class="hero__social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-            <img src="assets/instagram.png" alt="Instagram" draggable="false">
+      <video
+        class="hero-video__bg"
+        src="assets/LifeIsAPerformance_OmegaAD2.mp4"
+        poster="assets/OmegaBackground.png"
+        autoplay
+        muted
+        loop
+        playsinline
+        aria-hidden="true"
+      ></video>
+
+      <div class="hero-video__overlay" aria-hidden="true"></div>
+
+      <!-- Play trigger — bottom-left of video canvas -->
+      <button
+        id="video-play-trigger"
+        class="hero-video__play"
+        type="button"
+        aria-label="Play Omega video"
+      >
+        <svg class="hero-video__play-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <polygon points="3,1 15,8 3,15"/>
+        </svg>
+        Play video
+      </button>
+
+      <!-- ══════════════════════════════════════════════════════════════
+           SITE BANNER — sits over the video; JS switches to fixed on scroll
+           ══════════════════════════════════════════════════════════════ -->
+      <header class="site-banner" role="banner">
+        <div class="hero__logo-group">
+
+          <div class="hero__logo-socials" aria-hidden="true">
+            <a href="https://www.instagram.com/omegasound/" class="hero__social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+              <img src="assets/instagram.png" alt="Instagram" draggable="false">
+            </a>
+            <a href="https://www.linkedin.com/company/omegasound/about/?viewAsMember=true" class="hero__social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+              <img src="assets/linkedin.jpeg" alt="LinkedIn" draggable="false">
+            </a>
+            <a href="https://www.youtube.com/@OmegaSoundInc" class="hero__social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+              <img src="assets/youtube.png" alt="YouTube" draggable="false">
+            </a>
+          </div>
+
+          <a class="hero__logo" href="index.html" aria-label="Omega Sound — home">
+            <img src="assets/omega_logo.png" alt="Omega Sound" draggable="false">
           </a>
-          <a href="https://www.linkedin.com/company/omegasound/about/?viewAsMember=true" class="hero__social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-            <img src="assets/linkedin.jpeg" alt="LinkedIn" draggable="false">
-          </a>
-          <a href="https://www.youtube.com/@OmegaSoundInc" class="hero__social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-            <img src="assets/youtube.png" alt="YouTube" draggable="false">
-          </a>
+
+          <nav class="hero__logo-nav" aria-label="Site navigation">
+            <a href="demo.html" class="hero__logo-nav-item">Demo</a>
+            <a href="about.html" class="hero__logo-nav-item">About</a>
+            <a href="blog.html" class="hero__logo-nav-item">Blog</a>
+          </nav>
+
         </div>
-
-        <!-- Omega logo — rotates 180° on group hover -->
-        <div class="hero__logo" aria-label="Omega Sound">
-          <img src="assets/omega_logo.png" alt="Omega Sound" draggable="false">
-        </div>
-
-        <!-- Nav items — appear to the right on hover: Demo | About -->
-        <nav class="hero__logo-nav" aria-label="Site navigation">
-          <a href="demo.html" class="hero__logo-nav-item">Demo</a>
-          <a href="about.html" class="hero__logo-nav-item">About</a>
-          <a href="blog.html" class="hero__logo-nav-item">Blog</a>
-        </nav>
-
-      </div>
-
-      <!-- ── Hero connecting line: OMEGA eyebrow → thumb ─────── -->
-      <svg class="hero__lines" aria-hidden="true">
-        <line id="hero-omega-thumb-line"
-              stroke-width="1"
-              vector-effect="non-scaling-stroke"/>
-      </svg>
-
-      <!-- ── Hero Text: Top Left ───────────────────────────────── -->
-      <div class="hero__text">
-
-        <!-- Eyebrow: "Omega" — small, tracked, receded (Oura "ring name" treatment) -->
-        <span class="hero__eyebrow">Omega</span>
-
-        <!-- Line 0: Same size/style as Presence. -->
-        <span class="hero__headline hero__headline--sub">Achieve</span>
-
-        <!-- Line 1: Large italic editorial serif -->
-        <span class="hero__headline">Creative</span>
-
-        <!-- Line 2: Slightly smaller, same gradient treatment, subordinate -->
-        <span class="hero__headline hero__headline--sub" style="font-style:italic;">Presence.</span>
-
-      </div>
-
-      <!--
-        Hand + Omega Image: Bottom Center
-        PNG with transparent background — forearm enters from bottom of frame.
-        Decorative asset; meaning conveyed by surrounding text (alt="").
-        Drop omega_hand.png into /assets/ and this works immediately.
-      -->
-      <!-- hand removed — replaced by hands-connected spanning both sections -->
+      </header>
 
     </section>
 
     <section class="section-two" aria-label="Section Two">
-      <!-- #omega-form-bg-2 canvas injected here by section2_bg.js -->
 
-      <!-- MailChimp sign-up form -->
-      <form
-        class="palm-form"
-        action="https://omegasoundinc.us9.list-manage.com/subscribe/post?u=5f27c55368de67a4f5662f450&id=098dc2d309&f_id=00b7c2e1f0"
-        method="post"
-        id="mc-embedded-subscribe-form"
-        name="mc-embedded-subscribe-form"
-        novalidate
-      >
-        <!-- Labels -->
-        <label class="palm-form__label palm-form__label--fname" for="mce-FNAME">
-          First Name
-        </label>
-        <label class="palm-form__label palm-form__label--email" for="mce-EMAIL">
-          E-Mail
-        </label>
-        <label class="palm-form__label palm-form__label--phone" for="mce-PHONE">
-          Phone Number
-        </label>
+      <!-- Hero title + subtitle — positioned 1/6th down from section-two top -->
+      <div class="hero-video__content">
+        <h1 class="hero-video__title">The<br>Omega</h1>
+        <p class="hero-video__subtitle">Discover your<br>Musical Creativity</p>
+      </div>
 
-        <!-- Invisible inputs — text appears handwritten on the palm -->
-        <!-- First Name — required -->
-        <input type="text"  name="FNAME"  id="mce-FNAME"
-               class="palm-form__input palm-form__input--fname"
-               placeholder="First Name"
-               autocomplete="given-name" required>
-
-        <!-- E-Mail — required -->
-        <input type="email" name="EMAIL"  id="mce-EMAIL"
-               class="palm-form__input palm-form__input--email"
-               placeholder="E-Mail"
-               autocomplete="email" required>
-
-        <!-- Phone Number — optional -->
-        <input type="tel"   name="PHONE"  id="mce-PHONE"
-               class="palm-form__input palm-form__input--phone"
-               placeholder="Phone Number"
-               autocomplete="tel">
-
-        <!-- MailChimp anti-bot honeypot — must stay hidden -->
-        <div style="position:absolute;left:-5000px;" aria-hidden="true">
-          <input type="text"
-                 name="b_5f27c55368de67a4f5662f450_098dc2d309"
-                 tabindex="-1" value="">
-        </div>
-
-        <!-- Submit -->
-        <button type="submit"
-                name="subscribe"
-                id="mc-embedded-subscribe"
-                class="palm-form__submit">
-          SUBMIT
-        </button>
-      </form>
       <!-- Footer logo group — bottom center of section-two -->
       <div class="footer__logo-group">
 
@@ -179,51 +126,9 @@
   <!-- Connected-hands image — direct child of body so mix-blend-mode:screen
        blends against the WebGL canvas backdrop with no intermediate stacking
        context in the way. Spans hero + section two; intersection at ~100vh. -->
-  <!-- Device orb glow — direct body child, same stacking context as hands-connected -->
-  <div class="device-glow-zone" aria-hidden="true">
-    <div class="device-glow__particles">
-      <div class="device-glow__particle" data-i="1"></div>
-      <div class="device-glow__particle" data-i="2"></div>
-      <div class="device-glow__particle" data-i="3"></div>
-      <div class="device-glow__particle" data-i="4"></div>
-      <div class="device-glow__particle" data-i="5"></div>
-      <div class="device-glow__particle" data-i="6"></div>
-      <div class="device-glow__particle" data-i="7"></div>
-      <div class="device-glow__particle" data-i="8"></div>
-      <div class="device-glow__particle" data-i="9"></div>
-      <div class="device-glow__particle" data-i="10"></div>
-      <div class="device-glow__particle" data-i="11"></div>
-      <div class="device-glow__particle" data-i="12"></div>
-      <div class="device-glow__particle" data-i="13"></div>
-      <div class="device-glow__particle" data-i="14"></div>
-      <div class="device-glow__particle" data-i="15"></div>
-      <div class="device-glow__particle" data-i="16"></div>
-      <div class="device-glow__particle" data-i="17"></div>
-      <div class="device-glow__particle" data-i="18"></div>
-      <div class="device-glow__particle" data-i="19"></div>
-      <div class="device-glow__particle" data-i="20"></div>
-      <div class="device-glow__particle" data-i="21"></div>
-      <div class="device-glow__particle" data-i="22"></div>
-      <div class="device-glow__particle" data-i="23"></div>
-      <div class="device-glow__particle" data-i="24"></div>
-      <div class="device-glow__particle" data-i="25"></div>
-      <div class="device-glow__particle" data-i="26"></div>
-      <div class="device-glow__particle" data-i="27"></div>
-      <div class="device-glow__particle" data-i="28"></div>
-      <div class="device-glow__particle" data-i="29"></div>
-      <div class="device-glow__particle" data-i="30"></div>
-      <div class="device-glow__particle" data-i="31"></div>
-      <div class="device-glow__particle" data-i="32"></div>
-      <div class="device-glow__particle" data-i="33"></div>
-      <div class="device-glow__particle" data-i="34"></div>
-      <div class="device-glow__particle" data-i="35"></div>
-      <div class="device-glow__particle" data-i="36"></div>
-    </div>
-  </div>
-
   <img
     class="hands-connected"
-    src="assets/omega_handsconnected.png"
+    src="assets/omega_handcropped.png"
     alt=""
     role="presentation"
     loading="eager"
@@ -237,18 +142,42 @@
     Inserts its WebGL canvas as body's first child at z-index:-1.
     No inline JS anywhere in this document.
   -->
-  <!-- omega_form_bg_traced.js — Canvas 2D renderer from Inkscape SVG trace (131 paths, 4× supersampled) -->
-  <script src="js/omega_form_bg_traced.js"></script>
-  <!-- section2_bg.js — inits a second canvas inside .section-two, flipped via CSS -->
-  <script src="js/section2_bg.js"></script>
+  <!-- omega_form_bg_traced.js — Canvas 2D renderer; initialized for section-two (flipped) -->
+  <script src="js/omega_form_bg_traced.js?v=20"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (typeof initOmegaFormBg === 'function') {
+        window._omegaHeroBg = initOmegaFormBg(document.body);
+      }
+    });
+  </script>
+  <!-- section2_bg.js removed — form-bg appears once, not mirrored -->
   <!-- omega_form_submit.js — JSONP submit, no redirect; shows thank-you below button -->
-  <script src="js/omega_form_submit.js"></script>
+  <script src="js/omega_form_submit.js?v=20"></script>
   <!-- omega_hero_lines.js — draws OMEGA eyebrow → thumb connecting line -->
-  <script src="js/omega_hero_lines.js"></script>
-  <!-- omega_device_glow.js — locks device-glow-zone to orb position on resize -->
-  <script src="js/omega_device_glow.js"></script>
-<!-- omega_intro.js — 2-second page-load entrance animation sequence -->
-  <script src="js/omega_intro.js"></script>
+  <script src="js/omega_hero_lines.js?v=20"></script>
+  <!-- omega_intro.js — 2-second page-load entrance animation sequence -->
+  <script src="js/omega_intro.js?v=20"></script>
+  <!-- YouTube lightbox modal — iframe is injected on open, removed on close -->
+  <div
+    id="video-modal"
+    class="video-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Omega — Life Is A Performance"
+    hidden
+  >
+    <div class="video-modal__backdrop" aria-hidden="true"></div>
+    <div class="video-modal__container">
+      <button class="video-modal__close" aria-label="Close video">&times;</button>
+      <div class="video-modal__frame"></div>
+    </div>
+  </div>
+
+  <!-- omega_video_modal.js — must be after the modal HTML so getElementById finds it -->
+  <script src="js/omega_video_modal.js?v=20"></script>
+  <!-- omega_banner.js — switches banner from absolute (over video) to fixed on scroll -->
+  <script src="js/omega_banner.js?v=20"></script>
 
 </body>
 </html>

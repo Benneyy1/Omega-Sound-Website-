@@ -6,9 +6,9 @@
   <title>Blog — Omega Sound Inc.</title>
   <meta name="description" content="Thoughts on music, creativity, technology, and the science of human expression from Omega Sound Inc.">
 
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/hero.css">
-  <link rel="stylesheet" href="css/blog.css">
+  <link rel="stylesheet" href="css/base.css?v=23">
+  <link rel="stylesheet" href="css/hero.css?v=20">
+  <link rel="stylesheet" href="css/blog.css?v=20">
 </head>
 
 <body class="blog-page">
@@ -16,30 +16,30 @@
   <!-- Background canvas — same traced pattern as About page -->
   <div id="about-bg-top" aria-hidden="true"></div>
 
-  <!-- ── Nav: same logo group pattern ───────────────────────────── -->
-  <div class="hero__logo-group">
-    <div class="hero__logo-socials" aria-hidden="true">
-      <a href="https://www.instagram.com/omegasound/" class="hero__social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-        <img src="assets/instagram.png" alt="Instagram" draggable="false">
-      </a>
-      <a href="https://www.linkedin.com/company/omegasound/about/?viewAsMember=true" class="hero__social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-        <img src="assets/linkedin.jpeg" alt="LinkedIn" draggable="false">
-      </a>
-      <a href="https://www.youtube.com/@OmegaSoundInc" class="hero__social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-        <img src="assets/youtube.png" alt="YouTube" draggable="false">
-      </a>
-    </div>
-    <div class="hero__logo" aria-label="Omega Sound">
-      <a href="index.html" aria-label="Home">
+  <!-- ── Site banner — pill collapses to logo, expands on hover ── -->
+  <header class="site-banner is-fixed" role="banner">
+    <div class="hero__logo-group">
+      <div class="hero__logo-socials" aria-hidden="true">
+        <a href="https://www.instagram.com/omegasound/" class="hero__social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+          <img src="assets/instagram.png" alt="Instagram" draggable="false">
+        </a>
+        <a href="https://www.linkedin.com/company/omegasound/about/?viewAsMember=true" class="hero__social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+          <img src="assets/linkedin.jpeg" alt="LinkedIn" draggable="false">
+        </a>
+        <a href="https://www.youtube.com/@OmegaSoundInc" class="hero__social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+          <img src="assets/youtube.png" alt="YouTube" draggable="false">
+        </a>
+      </div>
+      <a class="hero__logo" href="index.html" aria-label="Omega Sound — home">
         <img src="assets/omega_logo.png" alt="Omega Sound" draggable="false">
       </a>
+      <nav class="hero__logo-nav" aria-label="Site navigation">
+        <a href="demo.html" class="hero__logo-nav-item">Demo</a>
+        <a href="about.html" class="hero__logo-nav-item">About</a>
+        <a href="blog.html" class="hero__logo-nav-item" aria-current="page">Blog</a>
+      </nav>
     </div>
-    <nav class="hero__logo-nav" aria-label="Site navigation">
-      <a href="demo.html" class="hero__logo-nav-item">Demo</a>
-      <a href="about.html" class="hero__logo-nav-item">About</a>
-      <a href="blog.html" class="hero__logo-nav-item" aria-current="page">Blog</a>
-    </nav>
-  </div>
+  </header>
 
   <!-- ── Page content ───────────────────────────────────────────── -->
   <main class="blog-wrap">
@@ -84,6 +84,7 @@
 
   <script src="js/omega_form_bg_traced.js"></script>
   <script src="js/about_bg.js"></script>
+  <script src="js/omega_logo_home.js?v=20"></script>
 
 </body>
 </html>

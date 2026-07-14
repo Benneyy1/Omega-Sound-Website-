@@ -19,6 +19,7 @@
 
   /* ── Typography ── */
   --font-display:    'Editorial New', 'Georgia', serif;
+  --font-condensed:  'Opus Chords Sans Condensed', sans-serif;
   --font-sans:       system-ui, -apple-system, BlinkMacSystemFont,
                      'Segoe UI', sans-serif;
   --font-handwrite:  'Caveat', cursive;
@@ -46,6 +47,15 @@
    Place font files in assets/fonts/ then uncomment the block.
    ────────────────────────────────────────────────────────────── */
 
+/* Opus Chords Sans Condensed — hero display */
+@font-face {
+  font-family: 'Opus Chords Sans Condensed';
+  src: url('../assets/fonts/OpusChordsSansCondensedStd.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Handwriting font for palm form inputs */
 @font-face {
   font-family: 'Caveat';
@@ -55,15 +65,53 @@
   font-display: swap;
 }
 
-/* Editorial New — uncomment once font file is available
 @font-face {
   font-family: 'Editorial New';
-  src: url('../assets/fonts/EditorialNew-Regular.woff2') format('woff2');
+  src: url('../assets/fonts/PPEditorialNew-Ultralight.otf') format('opentype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Editorial New';
+  src: url('../assets/fonts/PPEditorialNew-UltralightItalic.otf') format('opentype');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Editorial New';
+  src: url('../assets/fonts/PPEditorialNew-Regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
-*/
+
+@font-face {
+  font-family: 'Editorial New';
+  src: url('../assets/fonts/PPEditorialNew-Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Editorial New';
+  src: url('../assets/fonts/PPEditorialNew-Ultrabold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Editorial New';
+  src: url('../assets/fonts/PPEditorialNew-UltraboldItalic.otf') format('opentype');
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
 
 /* ── Reset ── */
 *, *::before, *::after {
@@ -87,7 +135,7 @@ body {
   background: transparent;
   color: var(--void);
   font-family: var(--font-sans);
-  overflow-x: hidden;
+  overflow-x: clip; /* clip ≠ hidden — doesn't create a scroll container, so position:sticky still works */
   min-height: 100vh;
 }
 

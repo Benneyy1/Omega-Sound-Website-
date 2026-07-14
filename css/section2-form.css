@@ -60,9 +60,11 @@
  *   E-Mail:     image (483,2676) → top: 73.9vh, left: calc(50% − 10.6vh)
  *   Phone:      image (483,2732) → top: 79.6vh, left: calc(50% − 10.6vh)
  */
-.palm-form__label--fname { top:  67.6vh; left: calc(50% - 10.6vh); }
-.palm-form__label--email { top:  73.9vh; left: calc(50% - 10.6vh); }
-.palm-form__label--phone { top:  79.6vh; left: calc(50% - 10.6vh); }
+/* Positions scaled for 82vh section-two + omega_hand.png (1792×2534).
+   Visual fine-tuning may be needed once deployed. */
+.palm-form__label--fname { top:  34vh; left: calc(50% - 8vh); }
+.palm-form__label--email { top:  40vh; left: calc(50% - 8vh); }
+.palm-form__label--phone { top:  46vh; left: calc(50% - 8vh); }
 
 /* ── Inputs — sit at label positions, styled as handwritten italic text ── */
 .palm-form__input {
@@ -95,24 +97,24 @@
  *   Phone:      image (483,2732) → top: 79.6vh,  left: calc(50% − 10.6vh)
  */
 .palm-form__input--fname {
-  top:  65.6vh;
-  left: calc(50% - 10.6vh);
+  top:  32vh;
+  left: calc(50% - 8vh);
 }
 
 .palm-form__input--email {
-  top:  71.9vh;
-  left: calc(50% - 10.6vh);
+  top:  38vh;
+  left: calc(50% - 8vh);
 }
 
 .palm-form__input--phone {
-  top:  77.6vh;
-  left: calc(50% - 10.6vh);
+  top:  44vh;
+  left: calc(50% - 8vh);
 }
 
 /* ── Submit button — cyan oval pill, black text ── */
 .palm-form__submit {
   position: absolute;
-  top: 125.5vh;
+  top: 68vh;
   left: calc(50% + 0.2vh);
   transform: translateX(-50%);
 
@@ -152,7 +154,7 @@
 /* ── Thank-you / error message — fades in below submit button ── */
 #omega-form-msg {
   position: absolute;
-  top: calc(119.4vh + 2.4em);
+  top: calc(68vh + 2.4em);
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;

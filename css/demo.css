@@ -12,24 +12,13 @@
   overflow: hidden;
 }
 
-/* ── Header bar ── */
-.demo-header {
-  position: relative;
-  width: 100%;
-  height: clamp(80px, 10vh, 120px);
-  flex-shrink: 0;
-  background: #ffffff;
-  z-index: 10;
-}
-
-/* ── Video stage — fills everything below the header ── */
+/* ── Video stage — fills full viewport; fixed banner is non-flow ── */
 .demo-main {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Exact remaining height so the reel never overflows or scrolls */
-  height: calc(100vh - clamp(80px, 10vh, 120px));
+  height: 100vh;
   padding-top: 72px;
   overflow: hidden;
   background: #ffffff;
@@ -79,45 +68,6 @@
     width: 100%;
     height: auto;
     aspect-ratio: 9 / 16;
-    /* but never taller than the remaining screen */
-    max-height: calc(100vh - clamp(80px, 10vh, 120px));
-  }
-
-  /* Nav: always visible below socials — hover doesn't work on touch */
-  .demo-header .hero__logo-nav {
-    position: static;
-    opacity: 1;
-    pointer-events: auto;
-    transform: none;
-    flex-direction: row;
-    gap: clamp(16px, 5vw, 28px);
-  }
-
-  /* Keep logo centered and socials visible below it */
-  .demo-header .hero__logo-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .demo-header .hero__logo-group::before {
-    display: none;
-  }
-
-  .demo-header .hero__logo-socials {
-    position: static;
-    opacity: 1;
-    pointer-events: auto;
-    transform: none;
-    flex-direction: row;
-    gap: 16px;
-  }
-
-  .demo-header .hero__social-link img {
-    width: 24px;
-    height: 24px;
+    max-height: 100vh;
   }
 }

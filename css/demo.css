@@ -5,11 +5,21 @@
 
 /* ── Page base ── */
 .demo-page {
-  background: #ffffff;
+  background: transparent;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative; /* anchors #about-bg-top */
+}
+
+/* ── Background canvas — fixed so it fills the viewport on this no-scroll page ── */
+#about-bg-top {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  filter: blur(6px);
+  pointer-events: none;
 }
 
 /* ── Video stage — fills full viewport; fixed banner is non-flow ── */
@@ -19,9 +29,10 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  padding-top: 72px;
+  /* Clear the fixed banner: top offset (0.75rem) + banner height + breathing room */
+  padding-top: calc(clamp(60px, 12.5vh, 96px) + 1.75rem);
   overflow: hidden;
-  background: #ffffff;
+  background: transparent;
 }
 
 /* ── Portrait reel wrapper ──

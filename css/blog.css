@@ -31,7 +31,7 @@
 .blog-wrap {
   max-width: 1040px;
   margin: 0 auto;
-  padding: 340px 40px 80px;
+  padding: clamp(140px, 18vh, 170px) 40px 80px;
   position: relative;
 }
 
@@ -55,20 +55,18 @@
 
 .blog-title {
   font-family: var(--font-sans);
-  font-size: clamp(2.8rem, 6vw, 5.5rem);
-  font-weight: 500;
-  letter-spacing: -0.025em;
-  line-height: 1.0;
-  background-image: linear-gradient(
-    to bottom right in oklab,
-    var(--gradient-hero-from),
-    var(--gradient-hero-to)
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.6;
+  color: var(--void);
+  opacity: 0.6;
+  max-width: 480px;
   margin: 0 0 var(--space-md);
+}
+
+.blog-title strong {
+  font-weight: 700;
 }
 
 .blog-subtitle {

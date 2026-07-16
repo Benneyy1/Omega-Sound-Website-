@@ -18,11 +18,11 @@
   --gradient-hero-to:   #111111;
 
   /* ── Typography ── */
-  --font-display:    'Editorial New', 'Georgia', serif;
-  --font-condensed:  'Opus Chords Sans Condensed', sans-serif;
   --font-sans:       system-ui, -apple-system, BlinkMacSystemFont,
                      'Segoe UI', sans-serif;
-  --font-handwrite:  'Caveat', cursive;
+  --font-display:    var(--font-sans);
+  --font-condensed:  var(--font-sans);
+  --font-handwrite:  var(--font-sans);
 
   /* ── Type Scale ── */
   --text-eyebrow:   clamp(0.75rem, 1.2vw, 1rem);

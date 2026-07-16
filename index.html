@@ -9,11 +9,12 @@
   <!-- intro.css must load first — sets elements to opacity:0 before render -->
   <link rel="stylesheet" href="css/intro.css?v=20">
   <!-- Styles: tokens + reset first, then hero-specific layout -->
-  <link rel="stylesheet" href="css/base.css?v=24">
+  <link rel="stylesheet" href="css/base.css?v=25">
   <link rel="stylesheet" href="css/video-hero.css?v=26">
-  <link rel="stylesheet" href="css/hero.css?v=20">
-  <link rel="stylesheet" href="css/section2.css?v=39">
+  <link rel="stylesheet" href="css/hero.css?v=22">
+  <link rel="stylesheet" href="css/section2.css?v=54">
   <link rel="stylesheet" href="css/section2-form.css?v=20">
+  <link rel="stylesheet" href="css/popup.css?v=1">
 
   <!-- No Google Fonts CDN — system serif fallback in effect -->
 
@@ -62,37 +63,6 @@
         Play video
       </button>
 
-      <!-- ══════════════════════════════════════════════════════════════
-           SITE BANNER — sits over the video; JS switches to fixed on scroll
-           ══════════════════════════════════════════════════════════════ -->
-      <header class="site-banner" role="banner">
-        <div class="hero__logo-group">
-
-          <div class="hero__logo-socials" aria-hidden="true">
-            <a href="https://www.instagram.com/omegasound/" class="hero__social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-              <img src="assets/instagram.png" alt="Instagram" draggable="false">
-            </a>
-            <a href="https://www.linkedin.com/company/omegasound/about/?viewAsMember=true" class="hero__social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-              <img src="assets/linkedin.jpeg" alt="LinkedIn" draggable="false">
-            </a>
-            <a href="https://www.youtube.com/@OmegaSoundInc" class="hero__social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-              <img src="assets/youtube.png" alt="YouTube" draggable="false">
-            </a>
-          </div>
-
-          <a class="hero__logo" href="index.html" aria-label="Omega Sound — home">
-            <img src="assets/omega_logo.png" alt="Omega Sound" draggable="false">
-          </a>
-
-          <nav class="hero__logo-nav" aria-label="Site navigation">
-            <a href="demo.html" class="hero__logo-nav-item">Demo</a>
-            <a href="about.html" class="hero__logo-nav-item">About</a>
-            <a href="blog.html" class="hero__logo-nav-item">Blog</a>
-          </nav>
-
-        </div>
-      </header>
-
     </section>
 
     <section class="section-two" aria-label="Section Two">
@@ -103,25 +73,57 @@
         <p class="hero-video__subtitle">Discover your<br>Musical Creativity</p>
       </div>
 
-      <!-- Footer logo group — bottom center of section-two -->
-      <div class="footer__logo-group">
-
-        <!-- Copyright — appears to the left on hover -->
-        <span class="footer__logo-left" aria-hidden="true">© 2026 Omega Sound Inc.</span>
-
-        <!-- Omega logo — starts flipped 180°, rotates upright on hover -->
-        <div class="footer__logo" aria-label="Omega Sound">
-          <img src="assets/omega_logo.png" alt="Omega Sound" draggable="false">
-        </div>
-
-        <!-- Rights — appears to the right on hover -->
-        <span class="footer__logo-right" aria-hidden="true">All rights reserved.</span>
-
-      </div>
-
     </section>
 
   </main>
+
+  <!-- Site banner — body-level so position:fixed z-index:500 competes directly
+       in the root stacking context, above section-two's sticky stacking context. -->
+  <header class="site-banner" role="banner">
+    <div class="hero__logo-group">
+
+      <div class="hero__logo-socials" aria-hidden="true">
+        <a href="https://www.instagram.com/omegasound/" class="hero__social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+          <img src="assets/instagram.png" alt="Instagram" draggable="false">
+        </a>
+        <a href="https://www.linkedin.com/company/omegasound/about/?viewAsMember=true" class="hero__social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+          <img src="assets/linkedin.png" alt="LinkedIn" draggable="false">
+        </a>
+        <a href="https://www.youtube.com/@OmegaSoundInc" class="hero__social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+          <img src="assets/youtube.png" alt="YouTube" draggable="false">
+        </a>
+      </div>
+
+      <a class="hero__logo" href="index.html" aria-label="Omega Sound — home">
+        <img src="assets/omega_logo.png" alt="Omega Sound" draggable="false">
+      </a>
+
+      <nav class="hero__logo-nav" aria-label="Site navigation">
+        <a href="demo.html" class="hero__logo-nav-item">Demo</a>
+        <a href="about.html" class="hero__logo-nav-item">About</a>
+        <a href="blog.html" class="hero__logo-nav-item">Blog</a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- Footer logo group — body-level so z-index competes in the root stacking
+       context, above .hands-connected (z-index:5). Inside section-two its
+       z-index was trapped inside that sticky stacking context. -->
+  <div class="footer__logo-group">
+
+    <!-- Copyright — appears to the left on hover -->
+    <span class="footer__logo-left" aria-hidden="true">© 2026 Omega Sound Inc.</span>
+
+    <!-- Omega logo — starts flipped 180°, rotates upright on hover -->
+    <div class="footer__logo" aria-label="Omega Sound">
+      <img src="assets/omega_logo.png" alt="Omega Sound" draggable="false">
+    </div>
+
+    <!-- Rights — appears to the right on hover -->
+    <span class="footer__logo-right" aria-hidden="true">All rights reserved.</span>
+
+  </div>
 
   <!-- Connected-hands image — direct child of body so mix-blend-mode:screen
        blends against the WebGL canvas backdrop with no intermediate stacking
@@ -147,7 +149,8 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (typeof initOmegaFormBg === 'function') {
-        window._omegaHeroBg = initOmegaFormBg(document.body);
+        window._section2Bg = initOmegaFormBg(document.querySelector('.section-two'), { revealFromBottom: true });
+        window._section2Bg.setProgress(1);
       }
     });
   </script>
@@ -178,6 +181,8 @@
   <script src="js/omega_video_modal.js?v=20"></script>
   <!-- omega_banner.js — switches banner from absolute (over video) to fixed on scroll -->
   <script src="js/omega_banner.js?v=20"></script>
+  <!-- omega_popup.js — waitlist widget, slides in from bottom-right after 8s -->
+  <script src="js/omega_popup.js?v=1"></script>
 
 </body>
 </html>

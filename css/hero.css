@@ -22,7 +22,7 @@
    SITE BANNER — collapsed pill around the logo, expands on hover
    ════════════════════════════════════════════════════════════════ */
 .site-banner {
-  position: absolute;
+  position: fixed;
   top: 0.75rem;
   left: 50%;
   transform: translateX(-50%);
@@ -43,7 +43,7 @@
 
 /* Expanded: grows to reveal socials + nav */
 .site-banner:hover {
-  width: min(640px, calc(100vw - 1.5rem));
+  width: min(700px, calc(100vw - 1.5rem));
 }
 
 /* Once video hero scrolls away, JS adds .is-fixed so banner sticks to viewport top */

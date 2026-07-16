@@ -1,105 +1,90 @@
 /* ════════════════════════════════════════════════════════════════
-   popup.css — Omega Sound Inc. Pre-order modal
+   popup.css — Omega Sound Inc. Waitlist widget
+   Bottom-right slide-in card; no backdrop overlay
    ════════════════════════════════════════════════════════════════ */
 
-.popup-overlay {
+.popup-widget {
   position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.38);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-  padding: 16px;
+  bottom: 28px;
+  right: 28px;
+  z-index: 900;
+  width: clamp(280px, calc(100vw - 48px), 340px);
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 26px 26px 22px;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    0 12px 40px rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  /* Start below the viewport, slide up into place */
+  transform: translateY(calc(100% + 36px));
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition:
+    transform 0.52s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity   0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.popup-overlay.is-visible {
+.popup-widget.is-visible {
+  transform: translateY(0);
   opacity: 1;
   pointer-events: auto;
 }
 
-.popup-card {
-  position: relative;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 18px;
-  padding: clamp(32px, 5vw, 52px) clamp(28px, 5vw, 48px);
-  width: 100%;
-  max-width: 420px;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.14);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform: translateY(12px);
-  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.popup-overlay.is-visible .popup-card {
-  transform: translateY(0);
-}
-
+/* ── Close button ── */
 .popup-close {
   position: absolute;
-  top: 14px;
-  right: 18px;
+  top: 13px;
+  right: 16px;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   line-height: 1;
-  color: rgba(0, 0, 0, 0.35);
-  padding: 4px 6px;
-  transition: color 0.2s ease;
+  color: rgba(0, 0, 0, 0.28);
+  padding: 4px 5px;
+  transition: color 0.18s ease;
 }
 
 .popup-close:hover {
-  color: rgba(0, 0, 0, 0.75);
+  color: rgba(0, 0, 0, 0.65);
 }
 
-.popup-logo {
-  width: clamp(64px, 14vw, 88px);
-  margin-bottom: 20px;
+/* ── Title — same condensed font as hero video title ── */
+.popup-title {
+  font-family: var(--font-condensed);
+  font-size: clamp(1.7rem, 5vw, 2.1rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  color: var(--void);
+  margin-bottom: 10px;
+  padding-right: 22px; /* breathing room from × */
 }
 
-.popup-logo img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.popup-headline {
+/* ── Subtitle ── */
+.popup-subtitle {
   font-family: var(--font-sans);
-  font-size: clamp(0.95rem, 2vw, 1.1rem);
-  font-weight: 500;
-  color: #111111;
-  text-align: center;
-  line-height: 1.4;
-  margin-bottom: 28px;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  line-height: 1.55;
+  margin-bottom: 18px;
 }
 
-.popup-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
+/* ── Email input ── */
 .popup-input {
   width: 100%;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: #F4F5F7;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  padding: 13px 16px;
+  padding: 11px 14px;
   font-family: var(--font-sans);
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   color: #111111;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .popup-input::placeholder {
@@ -107,36 +92,63 @@
 }
 
 .popup-input:focus {
-  border-color: rgba(10, 36, 99, 0.45);
-  box-shadow: 0 0 0 3px rgba(136, 204, 241, 0.25);
+  background: #ffffff;
+  border-color: rgba(10, 36, 99, 0.38);
+  box-shadow: 0 0 0 3px rgba(136, 204, 241, 0.22);
+}
+
+/* ── Footer row: Submit button + disclaimer text ── */
+.popup-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .popup-submit {
-  width: 100%;
-  margin-top: 6px;
-  background: #06d5ec;
+  flex-shrink: 0;
+  background: var(--void);
   border: none;
   border-radius: 999px;
-  padding: 13px 24px;
+  padding: 10px 22px;
   font-family: var(--font-sans);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #000000;
+  color: #ffffff;
   cursor: pointer;
   transition: opacity 0.2s ease;
 }
 
-.popup-submit:hover { opacity: 0.8; }
-.popup-submit:disabled { opacity: 0.5; cursor: default; }
+.popup-submit:hover    { opacity: 0.72; }
+.popup-submit:disabled { opacity: 0.4; cursor: default; }
 
-.popup-msg {
-  min-height: 1.2em;
-  margin-top: 10px;
+.popup-disclaimer {
   font-family: var(--font-sans);
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  color: rgba(0, 0, 0, 0.75);
-  text-align: center;
+  font-size: 0.7rem;
+  color: rgba(0, 0, 0, 0.38);
+  line-height: 1.45;
+  flex: 1;
+}
+
+/* ── Status / confirmation message ── */
+.popup-msg {
+  min-height: 1em;
+  margin-top: 11px;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 1.4;
+}
+
+/* ── Mobile: hug the full bottom edge ── */
+@media (max-width: 480px) {
+  .popup-widget {
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 }

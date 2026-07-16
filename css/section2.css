@@ -8,13 +8,18 @@
   width: 100%;
   height: 100dvh;
   overflow: hidden;
-  background: #ffffff;
+  background: transparent;
 }
 
-/* Dunes canvas — fixed full-page background, vertically flipped */
+/* Canvas lives inside section-two — 100dvh matches section-two exactly, avoiding
+   percentage-height resolution failures that leave a blank strip at the bottom */
 #omega-form-bg {
-  transform: scaleY(-1);
-  transform-origin: center center;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100dvh !important;
+  background: var(--void) !important;
 }
 
 
@@ -52,14 +57,23 @@
    in on hover (copyright left, rights right).
    ════════════════════════════════════════════════════════════════ */
 .footer__logo-group {
-  position: absolute;
+  position: fixed;
   bottom: var(--space-lg);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
+  z-index: 6;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
 }
 
-/* Extended hover bridge — same trick as hero logo group */
+.footer__logo-group.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Extended hover bridge — pointer-events:none so it doesn't intercept
+   section-two's mouseenter/mouseleave (which drives the ripple animation) */
 .footer__logo-group::before {
   content: '';
   position: absolute;
@@ -67,6 +81,7 @@
   right: -38vw;
   top: -4vh;
   bottom: -4vh;
+  pointer-events: none;
 }
 
 /* Logo mark — starts flipped, rotates upright on hover */

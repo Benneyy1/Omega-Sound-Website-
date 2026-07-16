@@ -1,92 +1,80 @@
 /* omega_popup.js
-   Pre-order sign-up modal.
+   Waitlist sign-up widget \u2014 bottom-right slide-in card.
    Reads window.OMEGA_POPUP_DELAY (ms) set inline before this script loads.
-   Uses sessionStorage to show the popup only once per browser session.
-   Submits to the same MailChimp endpoint as the palm form via JSONP. */
+   Uses sessionStorage so it only appears once per browser session.
+   Submits to the MailChimp endpoint via JSONP (email only). */
 
 (function () {
   'use strict';
 
-  var DELAY     = (typeof window.OMEGA_POPUP_DELAY === 'number') ? window.OMEGA_POPUP_DELAY : 10000;
-  var MC_U      = '5f27c55368de67a4f5662f450';
-  var MC_ID     = '098dc2d309';
-  var MC_F_ID   = '00b7c2e1f0';
+  var DELAY       = (typeof window.OMEGA_POPUP_DELAY === 'number') ? window.OMEGA_POPUP_DELAY : 8000;
+  var MC_U        = '5f27c55368de67a4f5662f450';
+  var MC_ID       = '098dc2d309';
+  var MC_F_ID     = '00b7c2e1f0';
   var SESSION_KEY = 'omega_popup_shown';
 
   if (sessionStorage.getItem(SESSION_KEY)) return;
 
-  var overlay, closeBtn, form, submitBtn, msgEl;
+  var widget, closeBtn, form, inputEl, submitBtn, msgEl;
 
   function buildPopup() {
-    overlay = document.createElement('div');
-    overlay.className = 'popup-overlay';
-    overlay.setAttribute('role', 'dialog');
-    overlay.setAttribute('aria-modal', 'true');
+    widget = document.createElement('div');
+    widget.className = 'popup-widget';
+    widget.setAttribute('role', 'region');
+    widget.setAttribute('aria-label', 'Join the Waitlist');
 
-    overlay.innerHTML = [
-      '<div class="popup-card">',
-        '<button class="popup-close" aria-label="Close">&times;</button>',
-        '<div class="popup-logo">',
-          '<img src="assets/omega_logo.png" alt="Omega Sound" draggable="false">',
+    widget.innerHTML = [
+      '<button class="popup-close" aria-label="Close">&times;</button>',
+      '<h2 class="popup-title">Join the<br>Waitlist</h2>',
+      '<p class="popup-subtitle">Drop your email below to get notified when our production run opens.</p>',
+      '<form class="popup-form" novalidate>',
+        '<input class="popup-input" type="email" name="EMAIL"',
+               'placeholder="your@email.com" autocomplete="email" required>',
+        '<div style="position:absolute;left:-5000px;" aria-hidden="true">',
+          '<input type="text" name="b_5f27c55368de67a4f5662f450_098dc2d309" tabindex="-1" value="">',
         '</div>',
-        '<p class="popup-headline">Pre-order coming soon. Be first to know.</p>',
-        '<form class="popup-form" novalidate>',
-          '<input class="popup-input" type="text"  name="FNAME"  placeholder="First Name"  autocomplete="given-name">',
-          '<input class="popup-input" type="email" name="EMAIL"  placeholder="E-Mail"       autocomplete="email" required>',
-          '<input class="popup-input" type="tel"   name="PHONE"  placeholder="Phone Number" autocomplete="tel">',
-          '<div style="position:absolute;left:-5000px;" aria-hidden="true">',
-            '<input type="text" name="b_5f27c55368de67a4f5662f450_098dc2d309" tabindex="-1" value="">',
-          '</div>',
-          '<button type="submit" class="popup-submit">Notify Me</button>',
-        '</form>',
+        '<div class="popup-footer">',
+          '<button type="submit" class="popup-submit">Submit</button>',
+          '<span class="popup-disclaimer">No spam. Just creativity and updates on our next drop.</span>',
+        '</div>',
         '<p class="popup-msg"></p>',
-      '</div>'
+      '</form>'
     ].join('');
 
-    document.body.appendChild(overlay);
+    document.body.appendChild(widget);
 
-    closeBtn  = overlay.querySelector('.popup-close');
-    form      = overlay.querySelector('.popup-form');
-    submitBtn = overlay.querySelector('.popup-submit');
-    msgEl     = overlay.querySelector('.popup-msg');
+    closeBtn  = widget.querySelector('.popup-close');
+    form      = widget.querySelector('.popup-form');
+    inputEl   = widget.querySelector('[name="EMAIL"]');
+    submitBtn = widget.querySelector('.popup-submit');
+    msgEl     = widget.querySelector('.popup-msg');
 
     closeBtn.addEventListener('click', hidePopup);
-
-    overlay.addEventListener('click', function (e) {
-      if (e.target === overlay) hidePopup();
-    });
-
-    document.addEventListener('keydown', function onKey(e) {
-      if (e.key === 'Escape') { hidePopup(); document.removeEventListener('keydown', onKey); }
-    });
-
     form.addEventListener('submit', handleSubmit);
   }
 
   function showPopup() {
-    overlay.getBoundingClientRect();
-    overlay.classList.add('is-visible');
+    widget.getBoundingClientRect(); // force layout so transition fires
+    widget.classList.add('is-visible');
   }
 
   function hidePopup() {
-    overlay.classList.remove('is-visible');
+    widget.classList.remove('is-visible');
     sessionStorage.setItem(SESSION_KEY, '1');
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    var emailVal = form.querySelector('[name="EMAIL"]').value.trim();
+    var emailVal = inputEl.value.trim();
     if (!emailVal) { msgEl.textContent = 'Please enter your email address.'; return; }
 
     submitBtn.disabled = true;
-    msgEl.textContent = '';
+    msgEl.textContent  = '';
 
     var cb = '_omegaPopup' + Date.now();
     var params = new URLSearchParams({
       u: MC_U, id: MC_ID, f_id: MC_F_ID,
-      FNAME: form.querySelector('[name="FNAME"]').value,
       EMAIL: emailVal,
-      PHONE: form.querySelector('[name="PHONE"]').value,
       c: cb
     });
 
@@ -114,7 +102,11 @@
       }
     };
 
-    var timer = setTimeout(function () { cleanup(); msgEl.textContent = 'Request timed out. Please try again.'; }, 8000);
+    var timer = setTimeout(function () {
+      cleanup();
+      msgEl.textContent = 'Request timed out. Please try again.';
+    }, 8000);
+
     document.head.appendChild(script);
   }
 
@@ -128,4 +120,5 @@
   } else {
     boot();
   }
-})();
+
+}());

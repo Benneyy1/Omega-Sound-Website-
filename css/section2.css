@@ -148,7 +148,7 @@
   }
 
   .hands-connected {
-    top: 165vh;
+    top: calc(45vh - 2dvh);
     height: 115vh;
     aspect-ratio: 1792 / 2180;
   }

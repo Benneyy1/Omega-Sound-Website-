@@ -69,15 +69,6 @@ body.blog-article-page {
 #article-bg-3 { top: 50%; }
 #article-bg-4 { top: 75%; }
 
-/* ── Nav: same positioning as blog/about pages ── */
-.blog-article-page .hero__logo-group {
-  position: absolute;
-  top: var(--space-lg);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
-}
-
 .blog-article-page .hero__social-link img {
   mix-blend-mode: normal;
 }
@@ -356,28 +347,4 @@ html[data-direction="magazine"] .body p.lead::first-letter {
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-  .blog-article-page .hero__logo-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .blog-article-page .hero__logo-socials {
-    position: static;
-    opacity: 1;
-    pointer-events: auto;
-    transform: none;
-    flex-direction: row;
-    gap: 20px;
-  }
-
-  .blog-article-page .hero__logo-nav {
-    position: static;
-    opacity: 1;
-    pointer-events: auto;
-    transform: none;
-    flex-direction: row;
-    gap: clamp(16px, 5vw, 28px);
-  }
 }

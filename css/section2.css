@@ -147,9 +147,13 @@
     height: 100dvh;
   }
 
+  /* Pin the image bottom to the bottom of section-two.
+     section-two ends at document position 200dvh (hero 100dvh + section-two 100dvh).
+     top = 200dvh − 115dvh = 85dvh so when scrollY = 100dvh the bottom edge
+     sits at viewport bottom and the sphere is ~15dvh above the viewport top. */
   .hands-connected {
-    top: calc(45vh - 2dvh);
-    height: 115vh;
+    top: 85dvh;
+    height: 115dvh;
     aspect-ratio: 1792 / 2180;
   }
 }

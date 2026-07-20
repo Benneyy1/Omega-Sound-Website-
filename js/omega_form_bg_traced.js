@@ -488,25 +488,8 @@
       paint();
     }
 
-    /* Attach to target so the ripple only fires while the cursor is over
-       the lines canvas, not whenever the cursor is anywhere on the page. */
-    var _enterTimer = null, _leaveTimer = null;
-    target.addEventListener('mouseenter', function () {
-      clearTimeout(_leaveTimer);
-      _leaveTimer = null;
-      if (!_enterTimer) _enterTimer = setTimeout(function () {
-        _enterTimer = null;
-        _startRipple();
-      }, 120);
-    });
-    target.addEventListener('mouseleave', function () {
-      clearTimeout(_enterTimer);
-      _enterTimer = null;
-      if (!_leaveTimer) _leaveTimer = setTimeout(function () {
-        _leaveTimer = null;
-        _stopRipple();
-      }, 120);
-    });
+    /* Ripple runs continuously — mouse hover no longer starts/stops it.
+       _startRipple() is called unconditionally after setup below. */
 
     var ro = (typeof ResizeObserver !== 'undefined')
       ? new ResizeObserver(resize) : null;
@@ -514,6 +497,7 @@
     else    window.addEventListener('resize', resize);
 
     resize();
+    _startRipple();
 
     return {
       canvas      : canvas,

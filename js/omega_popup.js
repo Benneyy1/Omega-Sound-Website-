@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  var DELAY           = (typeof window.OMEGA_POPUP_DELAY === 'number') ? window.OMEGA_POPUP_DELAY : 8000;
+  var DELAY           = (typeof window.OMEGA_POPUP_DELAY === 'number') ? window.OMEGA_POPUP_DELAY : 4000;
   var RECAPTCHA_KEY   = '6LfFj88sAAAAALtIPMLKS2R921HBlHDBfWScU63F';
   var SESSION_KEY     = 'omega_popup_shown';
 

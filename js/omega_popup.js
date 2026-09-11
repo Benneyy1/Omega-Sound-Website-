@@ -75,8 +75,6 @@
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({
           email:          emailVal,
-          firstName:      '',
-          phone:          '',
           recaptchaToken: token || '',
         }),
       })

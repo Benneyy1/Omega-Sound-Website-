@@ -1,6 +1,7 @@
 /* omega_form_submit.js
    Intercepts the sign-up form, gets a reCAPTCHA v3 token, then POSTs to the
-   /api/subscribe serverless function which verifies the token and calls Mailchimp.
+   /api/subscribe serverless function which verifies the token and adds the
+   subscriber to Google Sheets via Apps Script.
    No dependencies — vanilla JS, no module syntax. */
 
 (function () {
@@ -23,7 +24,7 @@
   }
 
   function submitToApi(recaptchaToken) {
-    var fname = (document.getElementById('mce-FNAME') || {}).value || '';
+    var firstName = (document.getElementById('mce-FNAME') || {}).value || '';
     var email = (document.getElementById('mce-EMAIL') || {}).value || '';
     var phone = (document.getElementById('mce-PHONE') || {}).value || '';
 
@@ -38,7 +39,7 @@
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({
-        fname:          fname.trim(),
+        firstName:      firstName.trim(),
         email:          email.trim(),
         phone:          phone.trim(),
         recaptchaToken: recaptchaToken || '',
@@ -49,15 +50,11 @@
       .then(function (data) {
         clearTimeout(timer);
         submitBtn.disabled = false;
-        if (data.ok) {
+        if (data.success) {
           form.reset();
-          showMessage(
-            data.alreadySubscribed
-              ? 'You’re already on the list — thank you!'
-              : 'Thank you — you’re on the list.'
-          );
+          showMessage(data.message || ‘Thank you — you’re on the list.’);
         } else {
-          showMessage(data.error || 'Something went wrong. Please try again.');
+          showMessage(data.message || ‘Something went wrong. Please try again.’);
         }
       })
       .catch(function (err) {

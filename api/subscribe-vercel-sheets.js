@@ -1,11 +1,16 @@
-// api/subscribe.js — Vercel serverless function (Google Sheets version)
-// Verifies reCAPTCHA, then adds subscriber to Google Sheets via Apps Script.
+// ═══════════════════════════════════════════════════════════════
+// OMEGA SOUND — Vercel Serverless Function (Google Sheets version)
+// Verifies reCAPTCHA, then adds subscriber to Google Sheets
 //
-// Environment variables required (Vercel Dashboard → Settings → Environment Variables):
-//   RECAPTCHA_SECRET  = Google reCAPTCHA Secret Key
-//   GOOGLE_SHEET_URL  = Google Apps Script web app URL
+// Deploy: Place this file at /api/subscribe.js in your Vercel project
+//
+// Environment Variables (Vercel Dashboard → Settings → Environment Variables):
+//   RECAPTCHA_SECRET  = your Google reCAPTCHA Secret Key
+//   GOOGLE_SHEET_URL  = your Google Apps Script web app URL
+// ═══════════════════════════════════════════════════════════════
 
 export default async function handler(req, res) {
+  // ── CORS headers ──
   res.setHeader('Access-Control-Allow-Origin', 'https://www.omegasoundinc.com');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -21,6 +26,7 @@ export default async function handler(req, res) {
   try {
     const { email, firstName, phone, recaptchaToken } = req.body;
 
+    // ── Validate required fields ──
     if (!email || !recaptchaToken) {
       return res.status(400).json({
         success: false,
@@ -60,7 +66,7 @@ export default async function handler(req, res) {
         phone: phone || '',
         ip: ip
       }),
-      redirect: 'follow'
+      redirect: 'follow' // Google Apps Script redirects on POST
     });
 
     const sheetData = await sheetResponse.json();

@@ -2,16 +2,14 @@
    Waitlist sign-up widget \u2014 bottom-right slide-in card.
    Reads window.OMEGA_POPUP_DELAY (ms) set inline before this script loads.
    Uses sessionStorage so it only appears once per browser session.
-   Submits to the MailChimp endpoint via JSONP (email only). */
+   Submits to /api/subscribe (Google Sheets) via fetch + reCAPTCHA v3. */
 
 (function () {
   'use strict';
 
-  var DELAY       = (typeof window.OMEGA_POPUP_DELAY === 'number') ? window.OMEGA_POPUP_DELAY : 8000;
-  var MC_U        = '5f27c55368de67a4f5662f450';
-  var MC_ID       = '098dc2d309';
-  var MC_F_ID     = '00b7c2e1f0';
-  var SESSION_KEY = 'omega_popup_shown';
+  var DELAY           = (typeof window.OMEGA_POPUP_DELAY === 'number') ? window.OMEGA_POPUP_DELAY : 8000;
+  var RECAPTCHA_KEY   = '6LfFj88sAAAAALtIPMLKS2R921HBlHDBfWScU63F';
+  var SESSION_KEY     = 'omega_popup_shown';
 
   if (sessionStorage.getItem(SESSION_KEY)) return;
 
@@ -71,43 +69,43 @@
     submitBtn.disabled = true;
     msgEl.textContent  = '';
 
-    var cb = '_omegaPopup' + Date.now();
-    var params = new URLSearchParams({
-      u: MC_U, id: MC_ID, f_id: MC_F_ID,
-      EMAIL: emailVal,
-      c: cb
-    });
-
-    var script = document.createElement('script');
-    script.src = 'https://omegasoundinc.us9.list-manage.com/subscribe/post-json?' + params.toString();
-
-    function cleanup() {
-      delete window[cb];
-      if (script.parentNode) script.parentNode.removeChild(script);
-      submitBtn.disabled = false;
+    function doPost(token) {
+      fetch('/api/subscribe', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({
+          email:          emailVal,
+          firstName:      '',
+          phone:          '',
+          recaptchaToken: token || '',
+        }),
+      })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          submitBtn.disabled = false;
+          if (data.success) {
+            msgEl.textContent = data.message || 'You\u2019re on the list \u2014 thank you!';
+            sessionStorage.setItem(SESSION_KEY, '1');
+            setTimeout(hidePopup, 2200);
+          } else {
+            msgEl.textContent = data.message || 'Something went wrong. Please try again.';
+          }
+        })
+        .catch(function () {
+          submitBtn.disabled = false;
+          msgEl.textContent = 'Something went wrong. Please try again.';
+        });
     }
 
-    window[cb] = function (data) {
-      clearTimeout(timer);
-      cleanup();
-      if (data.result === 'success') {
-        msgEl.textContent = 'You\u2019re on the list \u2014 thank you!';
-        sessionStorage.setItem(SESSION_KEY, '1');
-        setTimeout(hidePopup, 2200);
-      } else {
-        var raw = (data.msg || '').replace(/<[^>]*>/g, '').trim();
-        msgEl.textContent = raw.toLowerCase().indexOf('already subscribed') !== -1
-          ? 'You\u2019re already on the list!'
-          : (raw || 'Something went wrong. Please try again.');
-      }
-    };
-
-    var timer = setTimeout(function () {
-      cleanup();
-      msgEl.textContent = 'Request timed out. Please try again.';
-    }, 8000);
-
-    document.head.appendChild(script);
+    if (window.grecaptcha && window.grecaptcha.execute) {
+      grecaptcha.ready(function () {
+        grecaptcha.execute(RECAPTCHA_KEY, { action: 'popup_subscribe' })
+          .then(doPost)
+          .catch(function () { doPost(''); });
+      });
+    } else {
+      doPost('');
+    }
   }
 
   function boot() {
